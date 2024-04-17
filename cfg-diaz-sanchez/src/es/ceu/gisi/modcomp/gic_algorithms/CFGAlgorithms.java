@@ -17,8 +17,8 @@ import java.util.*;
  */
 public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface, CYKInterface {
     
-    private Set<Character> noterminal=new HashSet<>();  //set es una lista q no permite elementos repetidos
-    private Set<Character> temrinal=new HashSet<>();
+    private Set<Character> noterminales=new HashSet<>();  //set es una lista q no permite elementos repetidos
+    private Set<Character> temrinales=new HashSet<>();
     private Character axioma;
     private Map<Character, List<String>> produccion;
     private Map<String, List<Character>> inverseProd;
@@ -30,15 +30,15 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         try{
             if(Character.isUpperCase(nonterminal)){     //asegura q sea mayus, sino salta la excepcion
-                if(noterminal.contains(nonterminal)){   //si ya esta en la lista noterminal, salta la excepcion
+                if(noterminales.contains(nonterminal)){   //si ya esta en la lista noterminal, salta la excepcion
                     throw new CFGAlgorithmsException();
                 }
                 
                 if(Character.isLowerCase(nonterminal) || Character.isDigit(nonterminal)){   //si es minus o nº salta la excepcion
-                throw new CFGAlgorithmsException();
+                    throw new CFGAlgorithmsException();
                 }
                 
-                noterminal.add(nonterminal);
+                noterminales.add(nonterminal);
             }
             
             else{
@@ -53,15 +53,28 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
 
     @Override   //M
-    public void removeNonTerminal(char nonterminal) throws CFGAlgorithmsException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void removeNonTerminal(char nonterminal) throws CFGAlgorithmsException {     //¿¿NO TIENE TEST??
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            if(noterminales.contains(nonterminal)){     //si el NT esta en la lista,
+                noterminales.remove(nonterminal);       //se borra
+            }
+            else{
+                throw new CFGAlgorithmsException();
+            }
+            
+        } catch(CFGAlgorithmsException e){
+            throw e;
+        }
+        //SIN ACABAR
     }
 
 
 
     @Override   //M
     public Set<Character> getNonTerminals() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return noterminales;
     }
 
 
