@@ -5,6 +5,7 @@ import es.ceu.gisi.modcomp.gic_algorithms.interfaces.*;
 import java.util.List;
 import java.util.Set;
 
+import java.util.*;
 
 
 /**
@@ -15,10 +16,38 @@ import java.util.Set;
  * @author Sergio Saugar García <sergio.saugargarcia@ceu.es>
  */
 public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface, CYKInterface {
+    
+    private Set<Character> noterminal=new HashSet<>();  //set es una lista q no permite elementos repetidos
+    private Set<Character> temrinal=new HashSet<>();
+    private Character axioma;
+    private Map<Character, List<String>> produccion;
+    private Map<String, List<Character>> inverseProd;
+    private String [] [] table;
 
+    
     @Override
     public void addNonTerminal(char nonterminal) throws CFGAlgorithmsException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            if(Character.isUpperCase(nonterminal)){     //asegura q sea mayus, sino salta la excepcion
+                if(noterminal.contains(nonterminal)){   //si ya esta en la lista noterminal, salta la excepcion
+                    throw new CFGAlgorithmsException();
+                }
+                
+                if(Character.isLowerCase(nonterminal) || Character.isDigit(nonterminal)){   //si es minus o nº salta la excepcion
+                throw new CFGAlgorithmsException();
+                }
+                
+                noterminal.add(nonterminal);
+            }
+            
+            else{
+                throw new CFGAlgorithmsException();
+            }
+            
+        } catch(CFGAlgorithmsException e){
+            throw e;
+        }
     }
 
 
