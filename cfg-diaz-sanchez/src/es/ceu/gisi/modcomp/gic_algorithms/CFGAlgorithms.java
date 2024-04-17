@@ -52,77 +52,77 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
 
 
-    @Override
+    @Override   //M
     public void removeNonTerminal(char nonterminal) throws CFGAlgorithmsException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
-    @Override
+    @Override   //M
     public Set<Character> getNonTerminals() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
-    @Override
+    @Override   //G
     public void addTerminal(char terminal) throws CFGAlgorithmsException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
-    @Override
+    @Override   //G
     public void removeTerminal(char terminal) throws CFGAlgorithmsException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
-    @Override
+    @Override   //G
     public Set<Character> getTerminals() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
-    @Override
+    @Override   //G
     public void setStartSymbol(char nonterminal) throws CFGAlgorithmsException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
-    @Override
+    @Override   //G
     public Character getStartSymbol() throws CFGAlgorithmsException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
-    @Override
+    @Override   //M
     public void addProduction(char nonterminal, String production) throws CFGAlgorithmsException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
-    @Override
+    @Override   //M
     public boolean removeProduction(char nonterminal, String production) throws CFGAlgorithmsException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
-    @Override
+    @Override   //M
     public List<String> getProductions(char nonterminal) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
-    @Override
+    @Override   //G
     public String getProductionsToString(char nonterminal) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
