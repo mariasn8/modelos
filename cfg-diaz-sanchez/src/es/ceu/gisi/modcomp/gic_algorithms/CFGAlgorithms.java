@@ -110,14 +110,28 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //G
     public void removeTerminal(char terminal) throws CFGAlgorithmsException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try { 
+                if (terminales.contains(terminal)){
+                    terminales.remove(terminal);
+                }
+                
+            else{
+                throw new CFGAlgorithmsException();
+            }
+        } catch(CFGAlgorithmsException e){
+            
+            throw e;
+        
+        }
     }
 
 
 
     @Override   //G
     public Set<Character> getTerminals() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return terminales;
     }
 
 
