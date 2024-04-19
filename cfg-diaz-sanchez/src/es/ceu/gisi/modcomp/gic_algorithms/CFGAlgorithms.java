@@ -23,6 +23,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     private Map<Character, List<String>> producciones;
     private Map<String, List<Character>> inverseProd;
     private String [] [] table;
+    private List<String> listaProds=new ArrayList<>();
 
     
     @Override
@@ -168,7 +169,6 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     public void addProduction(char nonterminal, String production) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         try{
-            List<String> listaProds=new ArrayList<>();
             if(noterminales.contains(nonterminal)){     //comprueba q el noterminal esta en la lista d no terminales
                 for(int i=0; i<production.length();i++){    //recorre todo production
                     if(!noterminales.contains(production.charAt(i)) && !terminales.contains(production.charAt(i))){   //si la letra esta en la lista d term o noterm
@@ -201,7 +201,8 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //M
     public List<String> getProductions(char nonterminal) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return listaProds;
     }
 
 
