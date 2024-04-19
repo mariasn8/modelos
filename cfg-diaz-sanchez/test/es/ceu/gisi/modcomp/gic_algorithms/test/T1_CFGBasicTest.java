@@ -205,7 +205,7 @@ public class T1_CFGBasicTest {
         gica.addProduction('S', "ASa");
         gica.addProduction('S', "a");
 
-        //assertEquals("S::=ASa|a", gica.getProductionsToString('S'));
+        assertEquals("S::=ASa|a", gica.getProductionsToString('S'));
 
     }
 
