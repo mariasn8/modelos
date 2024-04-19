@@ -211,7 +211,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
 
 
-    @Override   //M
+    @Override   //G
     public List<String> getProductions(char nonterminal) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -225,21 +225,21 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
 
 
-    @Override
+    @Override //M
     public String getGrammar() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
-    @Override
+    @Override //M
     public void deleteGrammar() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
-    @Override
+    @Override //G
     public boolean isCFG() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -247,91 +247,91 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
 
     @Override
-    public boolean hasUselessProductions() {
+    public boolean hasUselessProductions() { //M
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
     @Override
-    public List<String> removeUselessProductions() {
+    public List<String> removeUselessProductions() { //M(9)
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
     @Override
-    public List<Character> removeUselessSymbols() {
+    public List<Character> removeUselessSymbols() { //G (9)
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
     @Override
-    public boolean hasLambdaProductions() {
+    public boolean hasLambdaProductions() { //M
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
     @Override
-    public List<Character> removeLambdaProductions() {
+    public List<Character> removeLambdaProductions() { //M
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
     @Override
-    public boolean hasUnitProductions() {
+    public boolean hasUnitProductions() { //G
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
     @Override
-    public List<String> removeUnitProductions() {
+    public List<String> removeUnitProductions() { //G
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
     @Override
-    public void transformToWellFormedGrammar() {
+    public void transformToWellFormedGrammar() { //M
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
     @Override
-    public void checkCNFProduction(char nonterminal, String production) throws CFGAlgorithmsException {
+    public void checkCNFProduction(char nonterminal, String production) throws CFGAlgorithmsException { //G
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
     @Override
-    public boolean isCNF() {
+    public boolean isCNF() { //G
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
     @Override
-    public void transformIntoCNF() throws CFGAlgorithmsException {
+    public void transformIntoCNF() throws CFGAlgorithmsException { //G
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
     @Override
-    public boolean isDerivedUsignCYK(String word) throws CFGAlgorithmsException {
+    public boolean isDerivedUsignCYK(String word) throws CFGAlgorithmsException { //M
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    } 
 
 
 
     @Override
-    public String algorithmCYKStateToString(String word) throws CFGAlgorithmsException {
+    public String algorithmCYKStateToString(String word) throws CFGAlgorithmsException { //M
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
