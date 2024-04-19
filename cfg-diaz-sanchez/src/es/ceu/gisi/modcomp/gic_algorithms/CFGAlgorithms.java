@@ -20,7 +20,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     private Set<Character> noterminales=new HashSet<>();  //set es una lista q no permite elementos repetidos
     private Set<Character> terminales=new HashSet<>();
     private Character axioma;
-    private Map<Character, List<String>> produccion;
+    private Map<Character, List<String>> producciones;
     private Map<String, List<Character>> inverseProd;
     private String [] [] table;
 
@@ -86,7 +86,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             
             if(Character.isLowerCase(terminal)){
                 if (terminales.contains(terminal)){
-                throw new CFGAlgorithmsException();
+                    throw new CFGAlgorithmsException();
                 }
                 if(Character.isUpperCase(terminal) || Character.isDigit(terminal)){   //si es mayuscula salta una excepción
                     throw new CFGAlgorithmsException();
@@ -152,7 +152,28 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //M
     public void addProduction(char nonterminal, String production) throws CFGAlgorithmsException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            List<String> listaProds=new ArrayList<>();
+            if(noterminales.contains(nonterminal)){     //comprueba q el noterminal esta en la lista d no terminales
+                for(int i=0; i<production.length();i++){    //recorre todo production
+                    if(!noterminales.contains(production.charAt(i)) && !terminales.contains(production.charAt(i))){   //si la letra esta en la lista d term o noterm
+                        throw new CFGAlgorithmsException();
+                    }
+                }
+                listaProds.add(production);     //si llega, todas las letras son T o NT
+                
+                if(listaProds.contains(production)){
+                    throw new CFGAlgorithmsException();
+                }
+                producciones.put(nonterminal, listaProds);
+            }
+            else{
+                throw new CFGAlgorithmsException();
+            }
+        } catch(CFGAlgorithmsException e) {
+            throw e;
+        }
     }
 
 
