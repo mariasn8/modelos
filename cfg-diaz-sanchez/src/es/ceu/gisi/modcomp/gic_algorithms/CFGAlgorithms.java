@@ -18,7 +18,7 @@ import java.util.*;
 public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface, CYKInterface {
     
     private Set<Character> noterminales=new HashSet<>();  //set es una lista q no permite elementos repetidos
-    private Set<Character> temrinales=new HashSet<>();
+    private Set<Character> terminales=new HashSet<>();
     private Character axioma;
     private Map<Character, List<String>> produccion;
     private Map<String, List<Character>> inverseProd;
@@ -81,7 +81,29 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //G
     public void addTerminal(char terminal) throws CFGAlgorithmsException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            
+            if(Character.isLowerCase(terminal)){
+                if (terminales.contains(terminal)){
+                throw new CFGAlgorithmsException();
+                }
+                if(Character.isUpperCase(terminal) || Character.isDigit(terminal)){   //si es mayuscula salta una excepción
+                    throw new CFGAlgorithmsException();
+                }
+                terminales.add(terminal);
+            }
+            else{
+                throw new CFGAlgorithmsException();
+            }
+            
+        
+        
+        } catch(CFGAlgorithmsException e){
+            
+            throw e;
+        
+        }
     }
 
 
