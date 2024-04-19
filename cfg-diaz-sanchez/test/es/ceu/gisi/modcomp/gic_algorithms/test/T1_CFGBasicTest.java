@@ -426,12 +426,9 @@ public class T1_CFGBasicTest {
         gica.addNonTerminal('A');
         gica.addNonTerminal('B');
         gica.addNonTerminal('C');
-
         gica.addTerminal('a');
         gica.addTerminal('b');
-
         gica.setStartSymbol('S');
-
         gica.addProduction('S', "AB");
         gica.addProduction('S', "BC");
 

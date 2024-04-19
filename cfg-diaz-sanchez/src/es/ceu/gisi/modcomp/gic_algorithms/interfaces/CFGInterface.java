@@ -94,7 +94,7 @@ public interface CFGInterface {
      */
     public void setStartSymbol(char nonterminal) throws CFGAlgorithmsException;
 
-
+    
 
     /**
      * Método que devuelve el axioma de la gramática.
@@ -107,7 +107,7 @@ public interface CFGInterface {
     public Character getStartSymbol() throws CFGAlgorithmsException;
 
 
-
+    
     /**
      * Método utilizado para construir la gramática. Admite producciones de tipo
      * 2. También permite añadir producciones a lambda (lambda se representa con

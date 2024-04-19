@@ -131,24 +131,38 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //G
     public Set<Character> getTerminals() {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
         return terminales;
+
     }
 
 
 
     @Override   //G
     public void setStartSymbol(char nonterminal) throws CFGAlgorithmsException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            if (noterminales.contains(nonterminal)){
+            this.axioma = nonterminal;
+            }
+            else{
+             throw new CFGAlgorithmsException();
+            }
+        }
+        catch(CFGAlgorithmsException e){
+            throw e;
+        }
     }
 
 
 
     @Override   //G
     public Character getStartSymbol() throws CFGAlgorithmsException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       
+        return axioma;
+        
     }
-
-
 
     @Override   //M
     public void addProduction(char nonterminal, String production) throws CFGAlgorithmsException {
