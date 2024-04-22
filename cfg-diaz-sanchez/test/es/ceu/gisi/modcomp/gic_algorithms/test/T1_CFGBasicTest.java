@@ -488,4 +488,34 @@ public class T1_CFGBasicTest {
 
         assertTrue(gica.isCFG());
     }
+    
+    @Test
+    public void getGrammar() throws CFGAlgorithmsException{
+        gica = new CFGAlgorithms();
+        gica.addNonTerminal('S');
+        gica.addNonTerminal('A');
+        gica.addNonTerminal('B');
+        gica.addNonTerminal('C');
+        
+        gica.addTerminal('a');
+        gica.addTerminal('b');
+        gica.addTerminal('c');
+        
+        gica.addProduction('S', "ABC");
+        
+        gica.addProduction('A', "aA");
+        gica.addProduction('A', "a");
+        
+        gica.addProduction('B', "bB");
+        gica.addProduction('B', "b");
+        
+        gica.addProduction('C', "cC");
+        gica.addProduction('C', "c");
+        
+        gica.addProduction('D', "aDc");
+        gica.addProduction('D', "l");
+        
+        assertEquals("S::=ABC"+"\n"+"A::=aA|a"+"\n"+"B::=bB|b"+"\n"+"C::=cC|c"+"\n"+"D::=aDc|l", gica.getGrammar());
+                
+    }
 }
