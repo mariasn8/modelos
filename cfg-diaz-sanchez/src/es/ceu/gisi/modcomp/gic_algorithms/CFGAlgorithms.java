@@ -142,7 +142,8 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         try{
             if (noterminales.contains(nonterminal)){
             this.axioma = nonterminal;
-            }
+            } 
+            
             else{
              throw new CFGAlgorithmsException();
             }
@@ -153,11 +154,16 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     }
 
 
-
+    
     @Override   //G
     public Character getStartSymbol() throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-       
+        
+        /*Character [] a= new Character[];
+        if(axioma = new Character){
+            throw new CFGAlgorithmsException();
+        } */
+        
         return axioma;
         
     }
@@ -190,7 +196,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
 
 
-    @Override   //M
+    @Override   //M     FALTA EL METODO getProductionsToString PARA VER SI VA
     public boolean removeProduction(char nonterminal, String production) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         try{
@@ -211,14 +217,19 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
 
 
-    @Override   //G
+    @Override   //M
     public List<String> getProductions(char nonterminal) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody        
+        List<String> prods=new ArrayList<>();
+        if(noterminales.contains(nonterminal)){
+                prods=producciones.get(nonterminal);      //.get() coge el valor de la clave
+            }
+        return prods;
     }
 
 
 
-    @Override   //G
+    @Override   //M
     public String getProductionsToString(char nonterminal) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -226,7 +237,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
 
     @Override //M
-    public String getGrammar() {
+    public String getGrammar() {    //FALTA COMPROBAR SI VA
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         List<Character> orden=new ArrayList<>();
         orden.addAll(noterminales);
@@ -258,14 +269,14 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
 
 
-    @Override   //M
+    @Override   //G
     public boolean hasUselessProductions() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
 
-    @Override   //M
+    @Override   //G
     public List<String> removeUselessProductions() { 
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

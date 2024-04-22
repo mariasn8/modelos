@@ -10,7 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-
+import java.util.*;
 
 /**
  * Clase que testea el correcto funcionamiento de la implementación del
@@ -517,5 +517,34 @@ public class T1_CFGBasicTest {
         
         assertEquals("S::=ABC"+"\n"+"A::=aA|a"+"\n"+"B::=bB|b"+"\n"+"C::=cC|c"+"\n"+"D::=aDc|l", gica.getGrammar());
                 
+    }
+    
+    @Test
+    public List<String> getProductions()throws CFGAlgorithmsException{
+        gica = new CFGAlgorithms();
+        gica.addNonTerminal('S');
+        gica.addNonTerminal('A');
+        gica.addNonTerminal('B');
+        gica.addNonTerminal('C');
+        
+        gica.addTerminal('a');
+        gica.addTerminal('b');
+        gica.addTerminal('c');
+        
+        gica.addProduction('S', "ABC");
+        
+        gica.addProduction('A', "aA");
+        gica.addProduction('A', "a");
+        
+        gica.addProduction('B', "bB");
+        gica.addProduction('B', "b");
+        
+        gica.addProduction('C', "cC");
+        gica.addProduction('C', "c");
+        
+        gica.addProduction('D', "aDc");
+        gica.addProduction('D', "l");
+        
+        return getProductions();
     }
 }
