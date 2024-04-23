@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="gic-doe-brahms">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/cfg-diaz-sanchez/dist/gic-doe-brahms.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
