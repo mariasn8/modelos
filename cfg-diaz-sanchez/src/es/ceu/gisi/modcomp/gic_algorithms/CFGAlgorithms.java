@@ -295,6 +295,27 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override //G
     public boolean isCFG() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+               if (axioma == ' ') {
+            return false;
+        }
+
+    
+    
+    try {
+        getStartSymbol(); 
+        for (char nt : noterminales) {
+            List<String> prods = getProductions(nt); 
+            for (String prod : prods) {
+                String productionString = getProductionsToString(nt);
+                if (!productionString.startsWith(nt + "::=")) {
+                    return false; 
+                }
+            }
+        }
+        return true;
+    } catch (CFGAlgorithmsException e) {
+        return false; 
+    }
     }
 
 
