@@ -20,9 +20,11 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     private Set<Character> noterminales=new HashSet<>();  //set es una lista q no permite elementos repetidos
     private Set<Character> terminales=new HashSet<>();
     private Character axioma=' ';
-    private Map<Character, List<String>> producciones;
+    private Map<Character, List<String>> producciones=new HashMap<Character, List<String>>();
     private Map<String, List<Character>> inverseProd;
     private String [] [] table;
+    
+    
     
 
     @Override
@@ -178,27 +180,26 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //M
     public void addProduction(char nonterminal, String production) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        try{    //NO AÑADE BIEN LAS PRODUCCIONES
+        try{
             List<String> listaProds=new ArrayList<>();
             if(noterminales.contains(nonterminal)){     //comprueba q el noterminal esta en la lista d no terminales
+                
+                if(production.equals("l")){     //si nonterminal esta en la lista de noterm y la prod es l, se añade
+                    listaProds.add(production);
+                }
+                
                 for(int i=0; i<production.length();i++){    //recorre todo production
                     if(!noterminales.contains(production.charAt(i)) && !terminales.contains(production.charAt(i))){   //si la letra no esta en la lista d term y noterm, error
                         throw new CFGAlgorithmsException();
                     }
                 }
-                if(production.equals("l")){     //si nonterminal esta en la lista de noterm yla prod es l, se añade
-                    listaProds.add(production);
-                }
-                
-                listaProds.add(production);     //si llega, todas las letras son T o NT
                 
                 if(listaProds.contains(production)){    //si la prod ya esta en la lista, error
                     throw new CFGAlgorithmsException();
                 } 
-                
-                else{
-                producciones.put(nonterminal, listaProds);
-                }
+
+                listaProds.add(production);     //si llega, todas las letras son T o NT
+                producciones.put(nonterminal, listaProds);  //
                 
             }
             else{
@@ -208,9 +209,9 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             throw e;
         }
     }
-
-
-
+    
+    
+    
     @Override   //M 
     public boolean removeProduction(char nonterminal, String production) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
