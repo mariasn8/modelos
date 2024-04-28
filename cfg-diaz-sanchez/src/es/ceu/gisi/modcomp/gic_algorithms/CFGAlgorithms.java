@@ -182,6 +182,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         try{
             List<String> listaProds=new ArrayList<>();
+            
             if(noterminales.contains(nonterminal)){     //comprueba q el noterminal esta en la lista d no terminales
 
                 if(production.equals("l")) {     //si nonterminal esta en la lista de noterm y la prod es l, se añade a los term
@@ -198,21 +199,24 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                 //inverseProd.put(production, listaChars);
                 
                 if(producciones.containsKey(nonterminal) && producciones.get(nonterminal).contains(production)){    //si production y nonterminal estan en producciones, error
-
-                if(listaProds.contains(production)){    //si la prod ya esta en la lista, error
                     throw new CFGAlgorithmsException();
                 } 
+                
+                if(producciones.get(nonterminal)!=null){    //si ya hay una lista de prods para el NT, se coge esta
+                    listaProds=producciones.get(nonterminal);   //añade a la lista la nueva prod
+                }
 
                 listaProds.add(production);     //si llega, todas las letras son T o NT
                 //listaChars.add(nonterminal);
                 
                 producciones.put(nonterminal, listaProds);  //si llega, se añade production
                 //inverseProd.put(production, listaChars)
-                }  
-                else{
-                    throw new CFGAlgorithmsException();
                 }
+            
+            else{
+                throw new CFGAlgorithmsException();
             }
+            
         } catch (CFGAlgorithmsException e){
             throw e;
         }
@@ -259,8 +263,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         Collections.sort(listaProds);    //ordena alfabeticamente
         
         StringBuilder sb=new StringBuilder();
-        if(producciones.containsKey(nonterminal)){
-            //if(producciones.equals(nonterminal)){   
+        if(producciones.containsKey(nonterminal)){  
             for(String str:listaProds){
                 sb.append(str).append("|");     
                 
