@@ -488,7 +488,7 @@ public class T1_CFGBasicTest {
         assertTrue(gica.isCFG());
     }
     
-    /*@Test
+    @Test
     public void getGrammar() throws CFGAlgorithmsException{
         gica = new CFGAlgorithms();
         gica.addNonTerminal('S');
@@ -515,6 +515,6 @@ public class T1_CFGBasicTest {
         gica.addProduction('D', "l");
         
         assertEquals("S::=ABC"+"\n"+"A::=aA|a"+"\n"+"B::=bB|b"+"\n"+"C::=cC|c"+"\n"+"D::=aDc|l", gica.getGrammar());           
-    } */
+    } 
 
 }
