@@ -192,7 +192,7 @@ public interface CFGInterface {
 
     /**
      * Método que comprueba si la gramática dada de alta es una gramática
-     * independiente del contexto.
+     * independiente del contexto.  
      *
      * @return true Si la gramática es una gramática independiente del contexto.
      */
