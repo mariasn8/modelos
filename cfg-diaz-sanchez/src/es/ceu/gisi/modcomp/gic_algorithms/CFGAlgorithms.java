@@ -183,7 +183,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             
             if(noterminales.contains(nonterminal)){     //comprueba q el noterminal esta en la lista d no terminales
 
-                if(production.equals("l")) {     //si nonterminal esta en la lista de noterm y la prod es l, se añade
+                if(production.equals("l")) {     //si nonterminal esta en la lista de noterm y la prod es l, se añade a los term
                     terminales.add('l');
                 }
 
@@ -196,7 +196,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                 //listaChars.add(nonterminal);
                 //inverseProd.put(production, listaChars);
                 
-                if(producciones.containsValue(listaProds) && producciones.containsKey(nonterminal)){    //si la prod ya esta en la lista, error
+                if(producciones.containsKey(nonterminal) && producciones.get(nonterminal).contains(production)){    //si production y nonterminal estan en producciones, error
                     throw new CFGAlgorithmsException();
                 }
                 
@@ -207,7 +207,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                 listaProds.add(production);     //si llega, todas las letras son T o NT
                 //listaChars.add(nonterminal);
                 
-                producciones.put(nonterminal, listaProds);
+                producciones.put(nonterminal, listaProds);  //si llega, se añade production
                 //inverseProd.put(production, listaChars);
                 
             }
@@ -254,11 +254,8 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //M
     public List<String> getProductions(char nonterminal) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody        
-        //List<String> prods=new ArrayList<>();
-        /*if(noterminales.contains(nonterminal)){
-                listaProds=producciones.get(nonterminal);      //.get() coge el valor de la clave, en A::=SAa coge SAa
-        } */
-        return producciones.get(nonterminal);   
+        
+        return producciones.get(nonterminal);   //.get() coge el valor de la clave, en A::=SAa coge SAa
     }
 
 
@@ -266,22 +263,23 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //M
     public String getProductionsToString(char nonterminal) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        List<String> listaProds=producciones.get(nonterminal);      //lista de producciones
-        /*if(noterminales.contains(nonterminal)){
-                listaProds=producciones.get(nonterminal);      //guarda las prods del noterm, .get() coge el valor de la clave
-        } */
+        List<String> listaProds=getProductions(nonterminal);    //lista de producciones
+        
         Collections.sort(listaProds);    //ordena alfabeticamente
         
         StringBuilder sb=new StringBuilder();
         if(producciones.containsKey(nonterminal)){
-            if(producciones.equals(nonterminal)){
-                for(String str:listaProds){
-                    sb.append('|').append(str);     //no esta llegando hasta aqui
-                }
+            //if(producciones.equals(nonterminal)){   
+            for(String str:listaProds){
+                sb.append(str).append("|");     
+                
             }
         }
         
-        return nonterminal+"::="+listaProds;
+        sb.reverse();       //da la vuelta a la cadena
+        sb.deleteCharAt(0);     //borra el 1º elemento, q seria el ultimo | en la cadena original
+        sb.reverse();       //vuelve a darle la vuelta a la cadena
+        return nonterminal+"::="+sb;
     }
 
 
@@ -305,7 +303,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     }
 
 
-//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
     @Override //M
     public void deleteGrammar() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -315,8 +313,8 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override //G
     public boolean isCFG() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-               if (axioma == ' ') {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (axioma == ' ') {
             return false;
         }
 
