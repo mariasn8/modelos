@@ -203,6 +203,8 @@ public class T1_CFGBasicTest {
         gica.addNonTerminal('A');
         gica.addProduction('S', "ASa");
         gica.addProduction('S', "a");
+        
+        gica.getProductionsToString('S');
 
         assertEquals("S::=ASa|a", gica.getProductionsToString('S'));
 

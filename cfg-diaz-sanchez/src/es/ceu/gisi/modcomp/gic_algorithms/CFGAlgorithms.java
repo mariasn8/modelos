@@ -20,10 +20,9 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     private Set<Character> noterminales=new HashSet<>();  //set es una lista q no permite elementos repetidos
     private Set<Character> terminales=new HashSet<>();
     private Character axioma=' ';
-    private Map<Character, List<String>> producciones=new HashMap<Character, List<String>>();
-    private Map<String, List<Character>> inverseProd;
+    private Map<Character, List<String>> producciones=new HashMap<>();
+    private Map<String, List<Character>> inverseProd=new HashMap<>();
     private String [] [] table;
-    
     
     
 
@@ -160,11 +159,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //G
     public Character getStartSymbol() throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        
-        /*Character [] a= new Character[];
-        if(axioma = new Character){
-            throw new CFGAlgorithmsException();
-        } */
+
         try{
             if(axioma.equals(' ')){
                 throw new CFGAlgorithmsException();
@@ -176,30 +171,44 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         }
       
     }
+    
+
 
     @Override   //M
     public void addProduction(char nonterminal, String production) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         try{
             List<String> listaProds=new ArrayList<>();
+            //List<Character> listaChars=new ArrayList<>();
+            
             if(noterminales.contains(nonterminal)){     //comprueba q el noterminal esta en la lista d no terminales
-                
-                if(production.equals("l")){     //si nonterminal esta en la lista de noterm y la prod es l, se añade
-                    listaProds.add(production);
+
+                if(production.equals("l")) {     //si nonterminal esta en la lista de noterm y la prod es l, se añade
+                    terminales.add('l');
                 }
-                
+
                 for(int i=0; i<production.length();i++){    //recorre todo production
                     if(!noterminales.contains(production.charAt(i)) && !terminales.contains(production.charAt(i))){   //si la letra no esta en la lista d term y noterm, error
                         throw new CFGAlgorithmsException();
                     }
                 }
                 
-                if(listaProds.contains(production)){    //si la prod ya esta en la lista, error
+                //listaChars.add(nonterminal);
+                //inverseProd.put(production, listaChars);
+                
+                if(producciones.containsValue(listaProds) && producciones.containsKey(nonterminal)){    //si la prod ya esta en la lista, error
                     throw new CFGAlgorithmsException();
-                } 
-
+                }
+                
+                if(producciones.get(nonterminal)!=null){    //si ya hay una lista de prods para el NT, se coge esta
+                    listaProds=producciones.get(nonterminal);   //añade a la lista la nueva prod
+                }
+                
                 listaProds.add(production);     //si llega, todas las letras son T o NT
-                producciones.put(nonterminal, listaProds);  //
+                //listaChars.add(nonterminal);
+                
+                producciones.put(nonterminal, listaProds);
+                //inverseProd.put(production, listaChars);
                 
             }
             else{
@@ -217,9 +226,18 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         try{
             if(noterminales.contains(nonterminal)){     //comprueba q el NT está en la lista
+                
+                for(int i=0; i<production.length();i++){    //recorre todo production
+                    if(!noterminales.contains(production.charAt(i)) && !terminales.contains(production.charAt(i))){   //si la letra no esta en la lista d term y tampoco en noterm, error
+                        throw new CFGAlgorithmsException();
+                    }
+                }
+                
                 if(producciones.containsKey(nonterminal)){      //comprueba q el NT tiene asociada una prod
+                //if(inverseProd.containsValue(nonterminal)){
                     producciones.remove(nonterminal, production);
-                    return true;    //NO FUNCIONA BIEN
+                    //inverseProd.remove(production);
+                    return true;    //
                 }
             }
             else{
@@ -236,11 +254,11 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //M
     public List<String> getProductions(char nonterminal) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody        
-        List<String> prods=new ArrayList<>();
-        if(noterminales.contains(nonterminal)){
-                prods=producciones.get(nonterminal);      //.get() coge el valor de la clave
-            }
-        return prods;
+        //List<String> prods=new ArrayList<>();
+        /*if(noterminales.contains(nonterminal)){
+                listaProds=producciones.get(nonterminal);      //.get() coge el valor de la clave, en A::=SAa coge SAa
+        } */
+        return producciones.get(nonterminal);   
     }
 
 
@@ -248,21 +266,24 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //M
     public String getProductionsToString(char nonterminal) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        List<String> prods=new ArrayList<>();      //lista de producciones
-        if(noterminales.contains(nonterminal)){
-                prods=producciones.get(nonterminal);      //guarda las prods del noterm, .get() coge el valor de la clave
-        }
-        Collections.sort(prods);    //ordena alfabeticamente
+        List<String> listaProds=producciones.get(nonterminal);      //lista de producciones
+        /*if(noterminales.contains(nonterminal)){
+                listaProds=producciones.get(nonterminal);      //guarda las prods del noterm, .get() coge el valor de la clave
+        } */
+        Collections.sort(listaProds);    //ordena alfabeticamente
         
         StringBuilder sb=new StringBuilder();
-        if(producciones.equals(nonterminal)){
-            for(String str:prods){
-                sb.append(str).append("|");
+        if(producciones.containsKey(nonterminal)){
+            if(producciones.equals(nonterminal)){
+                for(String str:listaProds){
+                    sb.append('|').append(str);     //no esta llegando hasta aqui
+                }
             }
         }
         
-        return nonterminal+"::="+prods;
+        return nonterminal+"::="+listaProds;
     }
+
 
 
 
