@@ -228,15 +228,20 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     public boolean removeProduction(char nonterminal, String production) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         try{
+            List<String> prods=getProductions(nonterminal);     //coge las prods del NT
+            
             if(noterminales.contains(nonterminal)){     //comprueba q el NT está en la lista
-                if(producciones.containsKey(nonterminal)){      //comprueba q el NT tiene asociada una prod
-                    producciones.remove(nonterminal, production);
-                    return true;    //NO FUNCIONA BIEN
+                if(producciones.containsKey(nonterminal) && prods.contains(production)){      //comprueba q el NT tenga una prod asociada y q production haya sido agregada antes
+                    prods.remove(production);   //se borra de la lista de prods
+                    producciones.put(nonterminal, prods);   //añade la lista de prods de la q se ha borrado la prod
+                    return true;                            //el NT se sobreescribe al ya estar agregado de antes
+                }
+                
+                else{
+                    throw new CFGAlgorithmsException();
                 }
             }
-            else{
-                throw new CFGAlgorithmsException();
-            }
+            
         } catch (CFGAlgorithmsException e){
             throw e;
         }
