@@ -202,7 +202,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                 } 
                 
                 if(producciones.get(nonterminal)!=null){    //si ya hay una lista de prods para el NT, se coge esta
-                    listaProds=producciones.get(nonterminal);   //añade a la lista la nueva prod
+                    listaProds=getProductions(nonterminal);   //añade a la lista la nueva prod
                 }
 
                 listaProds.add(production);     //si llega, todas las letras son T o NT. Añade la prod a la lista
@@ -265,7 +265,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         List<String> listaProds=getProductions(nonterminal);    //lista de producciones
         
         if(!producciones.isEmpty()){    //comprueba q hay prods agregadas
-            Collections.sort(listaProds);    //ordena alfabeticamente
+            Collections.sort(listaProds);    //ordena alfabeticamente las producciones
 
             StringBuilder sb=new StringBuilder();
             if(producciones.containsKey(nonterminal)){  
@@ -281,7 +281,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             return nonterminal+"::="+sb;
         }
         
-        else{
+        else{   //si no hay prods devuelve vacio
             return "";
         }
 
@@ -296,7 +296,6 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         orden.addAll(noterminales);
         
         Collections.sort(orden);    //para ordenar alfabeticamente la lista de noterm
-        //S iria hacia el final (?)
         
         StringBuilder sb=new StringBuilder();   //pasa la lista orden a String
         for(Character ch:orden){
