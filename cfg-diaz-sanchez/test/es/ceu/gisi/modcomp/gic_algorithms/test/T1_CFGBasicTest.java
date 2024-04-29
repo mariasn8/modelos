@@ -82,9 +82,9 @@ public class T1_CFGBasicTest {
 
         assertTrue(gica.getTerminals().isEmpty());
     }
-
-
-
+    
+    
+    
     @Test
     public void comprobarEliminarTerminalValido2() throws CFGAlgorithmsException {
         gica = new CFGAlgorithms();
@@ -140,6 +140,30 @@ public class T1_CFGBasicTest {
         gica = new CFGAlgorithms();
         gica.addNonTerminal('S');
         gica.addNonTerminal('S');
+    }
+    
+    
+    
+    @Test
+    public void comprobarEliminarNoTerminalValido() throws CFGAlgorithmsException {
+        gica = new CFGAlgorithms();
+        gica.addTerminal('a');
+        gica.addTerminal('b');
+        
+        gica.addNonTerminal('S');
+        gica.addNonTerminal('A');
+        
+        gica.addProduction('S', "ASa");
+        gica.addProduction('S', "b");
+        gica.addProduction('S', "l");
+        gica.addProduction('A', "l");
+        gica.addProduction('A', "a");
+
+        gica.removeNonTerminal('A');
+
+        assertTrue(gica.getNonTerminals().size() == 1);
+        assertTrue(gica.getNonTerminals().contains('S'));
+        assertEquals("S::=ASa|b|l", gica.getProductionsToString('S'));
     }
 
 
@@ -489,37 +513,38 @@ public class T1_CFGBasicTest {
 
         assertTrue(gica.isCFG());
     }
+
     
-    /*@Test
+    
+    @Test
     public void getGrammar() throws CFGAlgorithmsException{
-        gica = new CFGAlgorithms();
+        gica=new CFGAlgorithms();
+        
         gica.addNonTerminal('S');
         gica.addNonTerminal('A');
         gica.addNonTerminal('B');
         gica.addNonTerminal('C');
-        gica.addNonTerminal('D');
-        
+
         gica.addTerminal('a');
         gica.addTerminal('b');
-        gica.addTerminal('c');
-        
+
         gica.setStartSymbol('S');
-        
-        gica.addProduction('S', "ABC");
-        
-        gica.addProduction('A', "aA");
+
+        gica.addProduction('S', "AB");
+        gica.addProduction('S', "BC");
+
+        gica.addProduction('A', "BA");
         gica.addProduction('A', "a");
-        
-        gica.addProduction('B', "bB");
+
+        gica.addProduction('B', "CC");
         gica.addProduction('B', "b");
+
+        gica.addProduction('C', "AB");
+        gica.addProduction('C', "a");
         
-        gica.addProduction('C', "cC");
-        gica.addProduction('C', "c");
+        System.out.println(gica.getGrammar());
         
-        gica.addProduction('D', "aDc");
-        gica.addProduction('D', "l");
-        
-        assertEquals("S::=ABC"+"\n"+"A::=aA|a"+"\n"+"B::=bB|b"+"\n"+"C::=cC|c"+"\n"+"D::=aDc|l", gica.getGrammar());           
-    } */
+        assertEquals("A::=BA|a"+"\n"+"B::=CC|b"+"\n"+"C::=AB|a"+"\n"+"S::=AB|BC", gica.getGrammar());
+    }
 
 }

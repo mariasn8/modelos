@@ -60,7 +60,9 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         try{
             if(noterminales.contains(nonterminal)){     //si el NT esta en la lista,
                 noterminales.remove(nonterminal);       //se borra
+                producciones.remove(nonterminal);
             }
+            
             else{
                 throw new CFGAlgorithmsException();
             }
@@ -68,7 +70,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         } catch(CFGAlgorithmsException e){
             throw e;
         }
-        //SIN ACABAR
+        
     }
 
 
@@ -111,10 +113,12 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //G
     public void removeTerminal(char terminal) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        try { 
-                if (terminales.contains(terminal)){
-                    terminales.remove(terminal);
-                }
+        try {
+
+            if (terminales.contains(terminal)){
+                terminales.remove(terminal);
+            }
+                
                 
             else{
                 throw new CFGAlgorithmsException();
@@ -160,11 +164,6 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //G
     public Character getStartSymbol() throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        
-        /*Character [] a= new Character[];
-        if(axioma = new Character){
-            throw new CFGAlgorithmsException();
-        } */
         try{
             if(axioma.equals(' ')){
                 throw new CFGAlgorithmsException();
@@ -206,7 +205,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                     listaProds=producciones.get(nonterminal);   //añade a la lista la nueva prod
                 }
 
-                listaProds.add(production);     //si llega, todas las letras son T o NT
+                listaProds.add(production);     //si llega, todas las letras son T o NT. Añade la prod a la lista
                 //listaChars.add(nonterminal);
                 
                 producciones.put(nonterminal, listaProds);  //si llega, se añade production
@@ -285,17 +284,23 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
 
     @Override //M
-    public String getGrammar() {    //FALTA COMPROBAR SI VA
+    public String getGrammar() {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         List<Character> orden=new ArrayList<>();
         orden.addAll(noterminales);
+        
         Collections.sort(orden);    //para ordenar alfabeticamente la lista de noterm
         //S iria hacia el final (?)
         
         StringBuilder sb=new StringBuilder();   //pasa la lista orden a String
         for(Character ch:orden){
-            sb.append(ch).append("::=").append(getProductionsToString(ch)).append("\n");     //separa cada letra, pone ::= despues y las pone en lineas diferentes
+            sb.append(getProductionsToString(ch)).append("\n");     //coge las prods hechas ya String y las pone en lineas diferentes
         }       //.append()añade lo q haya dentro de () al final de sb
+        
+        sb.reverse();
+        sb.deleteCharAt(0);     //borra el ultimo salto de linea para q no de error
+        sb.reverse();
+        
         String str=sb.toString();
         return str;
 
