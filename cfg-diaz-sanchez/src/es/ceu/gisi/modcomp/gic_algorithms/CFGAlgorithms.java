@@ -264,20 +264,26 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         List<String> listaProds=getProductions(nonterminal);    //lista de producciones
         
-        Collections.sort(listaProds);    //ordena alfabeticamente
-        
-        StringBuilder sb=new StringBuilder();
-        if(producciones.containsKey(nonterminal)){  
-            for(String str:listaProds){
-                sb.append(str).append("|");     
-                
+        if(!producciones.isEmpty()){    //comprueba q hay prods agregadas
+            Collections.sort(listaProds);    //ordena alfabeticamente
+
+            StringBuilder sb=new StringBuilder();
+            if(producciones.containsKey(nonterminal)){  
+                for(String str:listaProds){
+                    sb.append(str).append("|");     
+
+                }
             }
+
+            sb.reverse();       //da la vuelta a la cadena
+            sb.deleteCharAt(0);     //borra el 1º elemento, q seria el ultimo | en la cadena original
+            sb.reverse();       //vuelve a darle la vuelta a la cadena
+            return nonterminal+"::="+sb;
         }
         
-        sb.reverse();       //da la vuelta a la cadena
-        sb.deleteCharAt(0);     //borra el 1º elemento, q seria el ultimo | en la cadena original
-        sb.reverse();       //vuelve a darle la vuelta a la cadena
-        return nonterminal+"::="+sb;
+        else{
+            return "";
+        }
 
     }
 
@@ -310,7 +316,11 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override //M
     public void deleteGrammar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        terminales.removeAll(terminales);
+        noterminales.removeAll(noterminales);   //borra todos los elementos de las listas
+        axioma=' ';     //pone el axioma en blanco
+        producciones.clear();
     }
 
 
