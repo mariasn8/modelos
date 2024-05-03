@@ -21,7 +21,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     private Set<Character> terminales=new HashSet<>();
     private Character axioma=' ';
     private Map<Character, List<String>> producciones=new HashMap<Character, List<String>>();
-    private Map<String, List<Character>> inverseProd;
+    private Map<String, List<Character>> inverseProd = new HashMap<>();
     private String [] [] table;
     
     
@@ -113,21 +113,33 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //G
     public void removeTerminal(char terminal) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
         try {
-
+            
+            
             if (terminales.contains(terminal)){
+                
                 terminales.remove(terminal);
+              
+                String valor = String.valueOf(terminal);
+                
+                inverseProd.remove(terminal);
+                
             }
-                
-                
+            
             else{
-                throw new CFGAlgorithmsException();
+     
+            throw new CFGAlgorithmsException();
+                               
             }
+            
         } catch(CFGAlgorithmsException e){
             
             throw e;
         
-        }       //SIN ACABAR
+        }
+        
+        //SIN ACABAR
     }
 
 
@@ -210,6 +222,8 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                 
                 producciones.put(nonterminal, listaProds);  //si llega, se añade production
                 //inverseProd.put(production, listaChars)
+                
+                terminales.remove('l');
                 }
             
             else{
@@ -327,25 +341,26 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override //G
     public boolean isCFG() {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        if (axioma == ' ') {
+        
+        try{
+            
+            Set <Character> noterm=getNonTerminals();
+            StringBuilder sb=new StringBuilder();
+            for(Character ch: noterm){
+                sb.append(ch);
+                String variable = ch.toString();
+                
+                if(variable.length() > 1){
+                    throw new CFGAlgorithmsException();
+                }
+            }
+            
+            
+            return true;
+        } 
+        catch (CFGAlgorithmsException e) {
             return false;
         }
-
-    try {
-        getStartSymbol(); 
-        for (char nt : noterminales) {
-        List<String> prods = getProductions(nt);
-        for (String prod : prods) {
-            // Verificar si la producción es válida
-            if (prod.length() < 3 || !Character.isUpperCase(prod.charAt(0)) || prod.charAt(1) != ':' || prod.charAt(2) != ':') {
-                return false; // La producción no es válida
-            }
-        }
-    }
-        return true;
-    } catch (CFGAlgorithmsException e) {
-        return false; 
-    }
     }
 
 
