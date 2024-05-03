@@ -20,10 +20,9 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     private Set<Character> noterminales=new HashSet<>();  //set es una lista q no permite elementos repetidos
     private Set<Character> terminales=new HashSet<>();
     private Character axioma=' ';
-    private Map<Character, List<String>> producciones=new HashMap<Character, List<String>>();
-    private Map<String, List<Character>> inverseProd;
-    private String [] [] table;
-    
+    private Map<Character, List<String>> producciones=new HashMap<>();
+    private Map<String, List<Character>> inverseProd=new HashMap<>();
+    private String [] [] table; 
     
     
 
@@ -55,7 +54,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
 
     @Override   //M
-    public void removeNonTerminal(char nonterminal) throws CFGAlgorithmsException {     //¿¿NO TIENE TEST??
+    public void removeNonTerminal(char nonterminal) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         try{
             if(noterminales.contains(nonterminal)){     //si el NT esta en la lista,
@@ -114,11 +113,11 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     public void removeTerminal(char terminal) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         try {
-
+            
             if (terminales.contains(terminal)){
-                terminales.remove(terminal);
-            }
-                
+                terminales.remove(terminal);    //borra el terminal de la lista
+                //producciones.remove();
+            }  
                 
             else{
                 throw new CFGAlgorithmsException();
@@ -127,7 +126,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             
             throw e;
         
-        }       //SIN ACABAR
+        }
     }
 
 
@@ -175,12 +174,15 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         }
       
     }
+    
+    
 
     @Override   //M
     public void addProduction(char nonterminal, String production) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         try{
             List<String> listaProds=new ArrayList<>();
+            List<Character> listaChars=new ArrayList<>();
             
             if(noterminales.contains(nonterminal)){     //comprueba q el noterminal esta en la lista d no terminales
 
@@ -194,23 +196,25 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                     }
                 }
                 
-                //listaChars.add(nonterminal);
-                //inverseProd.put(production, listaChars);
-                
                 if(producciones.containsKey(nonterminal) && producciones.get(nonterminal).contains(production)){    //si production y nonterminal estan en producciones, error
                     throw new CFGAlgorithmsException();
-                } 
+                }
+                
+                if(inverseProd.containsKey(production) && inverseProd.get(production).contains(nonterminal)){
+                    throw new CFGAlgorithmsException();
+                }
                 
                 if(producciones.get(nonterminal)!=null){    //si ya hay una lista de prods para el NT, se coge esta
                     listaProds=getProductions(nonterminal);   //añade a la lista la nueva prod
                 }
 
                 listaProds.add(production);     //si llega, todas las letras son T o NT. Añade la prod a la lista
-                //listaChars.add(nonterminal);
+                listaChars.add(nonterminal);
                 
                 producciones.put(nonterminal, listaProds);  //si llega, se añade production
-                //inverseProd.put(production, listaChars)
-                }
+                inverseProd.put(production, listaChars);
+                terminales.remove('l');     //borra la l de la lista de terminales
+            }
             
             else{
                 throw new CFGAlgorithmsException();
@@ -319,33 +323,14 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         terminales.removeAll(terminales);
         noterminales.removeAll(noterminales);   //borra todos los elementos de las listas
         axioma=' ';     //pone el axioma en blanco
-        producciones.clear();
+        producciones.clear();   
     }
 
 
 
     @Override //G
     public boolean isCFG() {
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        if (axioma == ' ') {
-            return false;
-        }
-
-    try {
-        getStartSymbol(); 
-        for (char nt : noterminales) {
-        List<String> prods = getProductions(nt);
-        for (String prod : prods) {
-            // Verificar si la producción es válida
-            if (prod.length() < 3 || !Character.isUpperCase(prod.charAt(0)) || prod.charAt(1) != ':' || prod.charAt(2) != ':') {
-                return false; // La producción no es válida
-            }
-        }
-    }
-        return true;
-    } catch (CFGAlgorithmsException e) {
-        return false; 
-    }
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
@@ -353,7 +338,6 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //G
     public boolean hasUselessProductions() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        
     }
 
 
@@ -374,15 +358,80 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //M
     public boolean hasLambdaProductions() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String prods=getGrammar();  
+        
+        
+        if(prods.contains("l")){    //comprueba si la gramatica contiene la l
+            return true;
+        }
+        
+        else{
+            return false;       //SIN ACABAR, FALTA ELIMINAR LAS C, Q SON SIMBOLOS INUTILES
+        }
     }
 
-
+    
 
     @Override   //M
     public List<Character> removeLambdaProductions() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        /*List<Character> listaLambda=new ArrayList<>();
+         
+        if(inverseProd.containsKey("l")){
+            listaLambda=inverseProd.get("l");   //coge el character al q esta asociada l
+            inverseProd.remove("l");
+        }
+        
+        return listaLambda;     //NO FUNCIONA BIEN, FALTAN PRODS. ELIMINAR NORMAS Y SIMBOLOS INUTILES DSPS
+        */
+        
+        List<Character> viejo=new ArrayList<>();   //Set -> lista q no permite elementos repetidos
+        List<Character>simbAnul=new ArrayList<>(); //simbolos anulables. coge los NT q tienen una produccion q hace l
+        
+        String listaProds=getGrammar(); //pasarlo a arraylist
+        
+        //parten la gramatica en distintos trozos, por lineas y producciones
+        String[] listaPartida=listaProds.split("\n");   //parte el string por lineas    A::=Aa|a|B (1)    B::=Ba|b (2)  (por ej)
+        ArrayList<String> listaArray=new ArrayList<>(Arrays.asList(listaPartida));  //pasa el String a ArrayList
+    
+        /*String xx=Arrays.toString(listaPartida);
+        String[] prodsPartidas=xx.split("::=");     //separa la parte izda de la dcha de la prod
+        ArrayList<String> listaProdPartida=new ArrayList<>(Arrays.asList(prodsPartidas));   //lo pasa a ArrayList
+        */
+        
+        while(viejo!=simbAnul){
+            viejo=simbAnul;
+            for(){  //para todas las producciones que esten en la lista
+                if(producciones.containsValue(simbAnul)){   //si el valor de la prod pertenece a los simbAnul
+                    simbAnul=simbAnul+inverseProd.get("Aa");
+                }
+            }
+        }
+        
+        List<Character> nuevasProds=new ArrayList<>();
+        
+        for(){      //para todas las prods q esten en la lista de prods
+            for(int i=1;i<prods.size(); i++){   //¿?
+                werf
+                
+                if(){   //si el lado dcho de la prod no es anulable
+                    rdfg
+                }
+                
+                else if(){   //si el lado dcho si es anulable
+                    sr
+                }
+            }
+            
+            for(){      //
+                e5rt
+            }
+        }
+        
+        
     }
+
 
 
 

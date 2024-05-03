@@ -223,8 +223,10 @@ public class T2_WFCFGBasicTest {
         gica.addProduction('E', "l");
 
         gica.addProduction('D', "Db");
+        
+        //System.out.println(gica.getGrammar());
 
-        assertTrue(gica.hasLambdaProductions());
+        assertTrue(gica.hasLambdaProductions());    //da error pq la C no se usa creo
     }
 
 

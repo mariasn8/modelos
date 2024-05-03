@@ -5,7 +5,7 @@
         <group>
             <file>file:/C:/Users/Maria/modelos/cfg-diaz-sanchez/test/es/ceu/gisi/modcomp/gic_algorithms/test/T1_CFGBasicTest.java</file>
             <file>file:/C:/Users/Maria/modelos/cfg-diaz-sanchez/src/es/ceu/gisi/modcomp/gic_algorithms/CFGAlgorithms.java</file>
-            <file>file:/C:/Users/Maria/modelos/cfg-diaz-sanchez/src/es/ceu/gisi/modcomp/gic_algorithms/interfaces/WFCFGInterface.java</file>
+            <file>file:/C:/Users/Maria/modelos/cfg-diaz-sanchez/test/es/ceu/gisi/modcomp/gic_algorithms/test/T2_WFCFGBasicTest.java</file>
             <file>file:/C:/Users/Maria/modelos/cfg-diaz-sanchez/src/es/ceu/gisi/modcomp/gic_algorithms/interfaces/CFGInterface.java</file>
         </group>
     </open-files>

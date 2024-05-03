@@ -570,7 +570,7 @@ public class T1_CFGBasicTest {
         gica.addProduction('C', "AB");
         gica.addProduction('C', "a");
         
-        System.out.println(gica.getGrammar()+"\n");
+        //System.out.println(gica.getGrammar()+"\n");
         
         assertEquals("A::=BA|a"+"\n"+"B::=CC|b"+"\n"+"C::=AB|a"+"\n"+"S::=AB|BC", gica.getGrammar());
     }
@@ -603,7 +603,7 @@ public class T1_CFGBasicTest {
         
         gica.addProduction('D', "b");
         
-        System.out.println(gica.getGrammar());
+        //System.out.println(gica.getGrammar());
         
         assertEquals("A::=BS|a"+"\n"+"B::=DC|SA|b"+"\n"+"C::=a"+"\n"+"D::=b"+"\n"+"S::=AB", gica.getGrammar());
     }
