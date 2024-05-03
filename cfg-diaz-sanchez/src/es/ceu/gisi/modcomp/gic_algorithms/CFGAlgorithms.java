@@ -23,7 +23,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     private Map<Character, List<String>> producciones=new HashMap<>();
     private Map<String, List<Character>> inverseProd=new HashMap<>();
     private String [] [] table; 
-    
+
     
 
     @Override
@@ -112,20 +112,23 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //G
     public void removeTerminal(char terminal) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
         try {
-            
             if (terminales.contains(terminal)){
-                terminales.remove(terminal);    //borra el terminal de la lista
-                //producciones.remove();
-            }  
                 
-            else{
-                throw new CFGAlgorithmsException();
+                terminales.remove(terminal);    //borra el terminal de la lista
+                String valor = String.valueOf(terminal);
+                inverseProd.remove(valor);
+                
             }
+
+            else{
+                throw new CFGAlgorithmsException();        
+            }
+            
         } catch(CFGAlgorithmsException e){
             
             throw e;
-        
         }
     }
 
@@ -330,7 +333,26 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override //G
     public boolean isCFG() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        try{
+            
+            Set <Character> noterm=getNonTerminals();
+            StringBuilder sb=new StringBuilder();
+            for(Character ch: noterm){
+                sb.append(ch);
+                String variable = ch.toString();
+                
+                if(variable.length() > 1){
+                    throw new CFGAlgorithmsException();
+                }
+            }
+
+            return true;
+        } 
+        catch (CFGAlgorithmsException e) {
+            return false;
+        }
     }
 
 

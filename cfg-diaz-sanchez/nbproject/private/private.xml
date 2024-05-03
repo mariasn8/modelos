@@ -3,10 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Maria/modelos/cfg-diaz-sanchez/test/es/ceu/gisi/modcomp/gic_algorithms/test/T1_CFGBasicTest.java</file>
             <file>file:/C:/Users/Maria/modelos/cfg-diaz-sanchez/src/es/ceu/gisi/modcomp/gic_algorithms/CFGAlgorithms.java</file>
             <file>file:/C:/Users/Maria/modelos/cfg-diaz-sanchez/test/es/ceu/gisi/modcomp/gic_algorithms/test/T2_WFCFGBasicTest.java</file>
             <file>file:/C:/Users/Maria/modelos/cfg-diaz-sanchez/src/es/ceu/gisi/modcomp/gic_algorithms/interfaces/CFGInterface.java</file>
+=======
+            <file>file:/C:/Users/gabad/Documents/GitHub/modelos/cfg-diaz-sanchez/src/es/ceu/gisi/modcomp/gic_algorithms/exceptions/CFGAlgorithmsException.java</file>
+            <file>file:/C:/Users/gabad/Documents/GitHub/modelos/cfg-diaz-sanchez/test/es/ceu/gisi/modcomp/gic_algorithms/test/T1_CFGBasicTest.java</file>
+            <file>file:/C:/Users/gabad/Documents/GitHub/modelos/cfg-diaz-sanchez/src/es/ceu/gisi/modcomp/gic_algorithms/CFGAlgorithms.java</file>
+>>>>>>> 05fddb0ae9f427d9b89ea4a16c84c0d74a7fb485
         </group>
     </open-files>
 </project-private>
