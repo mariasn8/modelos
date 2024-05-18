@@ -114,24 +114,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         
         try {
-            String valor = String.valueOf(terminal);
             
-            if (terminales.contains(terminal)){
-                terminales.remove(terminal);    //lo borra de la lista
-                Iterator <Character> i = noterminales.iterator();
-                
-                while (i.hasNext()){    //mientras haya producciones
-                    List <String> lista = getProductions(i.next());
-                    
-                    if(lista.contains(valor)){   
-                    lista.remove(valor);
-                    }   
-                }
-            }
-                
-            else{
-            throw new CFGAlgorithmsException();                  
-            }
             
         } catch(CFGAlgorithmsException e){
             
