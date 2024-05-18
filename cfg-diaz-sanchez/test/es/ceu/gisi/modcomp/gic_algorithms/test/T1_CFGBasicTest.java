@@ -102,7 +102,7 @@ public class T1_CFGBasicTest {
 
         assertTrue(gica.getTerminals().size() == 1);
         assertTrue(gica.getTerminals().contains('b'));
-        //assertEquals("S::=b|l", gica.getProductionsToString('S'));
+        assertEquals("S::=b|l", gica.getProductionsToString('S'));
         assertEquals("A::=l", gica.getProductionsToString('A'));
     }
 
@@ -570,7 +570,8 @@ public class T1_CFGBasicTest {
         gica.addProduction('C', "AB");
         gica.addProduction('C', "a");
         
-        //System.out.println(gica.getGrammar()+"\n");
+        System.out.println(gica.getGrammar()+"\n");
+        //gica.isDerivedUsignCYK("bcaa");
         
         assertEquals("A::=BA|a"+"\n"+"B::=CC|b"+"\n"+"C::=AB|a"+"\n"+"S::=AB|BC", gica.getGrammar());
     }

@@ -114,16 +114,23 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         
         try {
+            String valor = String.valueOf(terminal);
+            
             if (terminales.contains(terminal)){
+                terminales.remove(terminal);    //lo borra de la lista
+                Iterator <Character> i = noterminales.iterator();
                 
-                terminales.remove(terminal);    //borra el terminal de la lista
-                String valor = String.valueOf(terminal);
-                inverseProd.remove(valor);
-                
+                while (i.hasNext()){    //mientras haya producciones
+                    List <String> lista = getProductions(i.next());
+                    
+                    if(lista.contains(valor)){   
+                    lista.remove(valor);
+                    }   
+                }
             }
-
+                
             else{
-                throw new CFGAlgorithmsException();        
+            throw new CFGAlgorithmsException();                  
             }
             
         } catch(CFGAlgorithmsException e){
@@ -338,12 +345,12 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         try{
             
             Set <Character> noterm=getNonTerminals();
-            StringBuilder sb=new StringBuilder();
+            StringBuilder sb=new StringBuilder();   //pasa el set noterm a string
             for(Character ch: noterm){
                 sb.append(ch);
                 String variable = ch.toString();
                 
-                if(variable.length() > 1){
+                if(variable.length() > 1){      //si hay mas de 1 no terminal, error
                     throw new CFGAlgorithmsException();
                 }
             }
@@ -381,10 +388,10 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //M
     public boolean hasLambdaProductions() {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        String prods=getGrammar();  
+        String gram=getGrammar();  
         
         
-        if(prods.contains("l")){    //comprueba si la gramatica contiene la l
+        if(gram.contains("l")){    //comprueba si la gramatica contiene la l
             return true;
         }
         
@@ -408,10 +415,10 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         return listaLambda;     //NO FUNCIONA BIEN, FALTAN PRODS. ELIMINAR NORMAS Y SIMBOLOS INUTILES DSPS
         */
         
+        String listaProds=getGrammar(); //pasarlo a arraylist
+        
         List<Character> viejo=new ArrayList<>();   //Set -> lista q no permite elementos repetidos
         List<Character>simbAnul=new ArrayList<>(); //simbolos anulables. coge los NT q tienen una produccion q hace l
-        
-        String listaProds=getGrammar(); //pasarlo a arraylist
         
         //parten la gramatica en distintos trozos, por lineas y producciones
         String[] listaPartida=listaProds.split("\n");   //parte el string por lineas    A::=Aa|a|B (1)    B::=Ba|b (2)  (por ej)
@@ -473,7 +480,22 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //M
     public void transformToWellFormedGrammar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        if(hasUselessProductions()){
+            removeUselessProductions();
+        }
+        
+        if(hasLambdaProductions()){
+            removeLambdaProductions();      //el metodo interior debería llamar a la gramatica almacenada
+        }
+        
+        if(hasUnitProductions()){
+            removeUnitProductions();
+        }
+        
+        removeUselessSymbols();     //más o menos, hay q comprobarlo una vez hechos los metodos
+        
     }
 
 
@@ -499,9 +521,52 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
 
 
-    @Override   //M
+    @Override   //M     hace el algoritmo y dice si la palabra pertenece
     public boolean isDerivedUsignCYK(String word) throws CFGAlgorithmsException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        //transformIntoCNF();       //coger la gramatica ya transformada en CNF
+        int n=word.length();    //longitud de la palabra
+        table=new String [n+1][n+1];    //crea la tabla con la misma longitud de la palabra, +1 porque deja un espacio para los nº
+                        //i     //j
+        
+        /*for(int i=1; i<n; i++){
+            table[i][0]=Integer.toString(i);    //pone nº en la columna 0  (?)
+        } */
+        
+        /*for(int j=1; j<n; j++){
+            //for(int a=0; a<n; a++)
+            table[0][j]= ;   //pone word en la fila 0  (?) comprobar si van
+        } */
+        
+        /*word.toCharArray();
+        //Empieza el algoritmo
+       for(int i=1; i<n; i++){     //i=filas
+            fdv
+        } */
+        
+        //inverseProd=Character, List<String>
+        List<Character> x=new ArrayList<>();
+        List<Character> listaChars=new ArrayList<>();
+        
+       if(inverseProd.containsKey("a")){
+           x=inverseProd.get("a");
+           listaChars.add(x);
+           
+       }
+       System.out.println(listaChars);
+       
+       
+       
+        /*for(int j=2; j<n; j++){     //j=columnas
+            for(int i=1; i<n-j+1; i++){
+                casillaActual=null;
+                for(int k=1; k<j-1; k++){
+                    casillaActual+=fnk;
+                }
+            }
+        } */
+        return true;
     } 
 
 
@@ -509,6 +574,16 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //M
     public String algorithmCYKStateToString(String word) throws CFGAlgorithmsException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        /*String s="";
+        int n=word.length();
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                s+=table[i][j];
+            }
+            s+=" "+"\n";
+        }
+        return s; */
     }
 
 }
