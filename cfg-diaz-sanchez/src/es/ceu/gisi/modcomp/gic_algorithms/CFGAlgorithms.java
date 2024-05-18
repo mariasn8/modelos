@@ -112,41 +112,29 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //G
     public void removeTerminal(char terminal) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        
+                
         try {
             
-            String valor = String.valueOf(terminal);
-            
-                
+            String valor = String.valueOf(terminal);     
             
             if (terminales.contains(terminal)){
                 
                 terminales.remove(terminal);
-                
-                
+
                 Iterator <Character> i = noterminales.iterator();
                 while (i.hasNext()){
                 
                     List <String> lista = getProductions(i.next());
-                    
-                    
-                    if(lista.contains(String.valueOf(terminal))){
-                        
+
+                    if(lista.contains(String.valueOf(terminal))){     
                     lista.remove(String.valueOf(terminal));
-                    
                     }
                     
-                    
                 }
-                
             }
             
             else{
-     
-            throw new CFGAlgorithmsException();
-                               
+            throw new CFGAlgorithmsException();               
             }
             
         } catch(CFGAlgorithmsException e){
@@ -450,7 +438,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         ArrayList<String> listaProdPartida=new ArrayList<>(Arrays.asList(prodsPartidas));   //lo pasa a ArrayList
         */
         
-        while(viejo!=simbAnul){
+        /*while(viejo!=simbAnul){
             viejo=simbAnul;
             for(){  //para todas las producciones que esten en la lista
                 if(producciones.containsValue(simbAnul)){   //si el valor de la prod pertenece a los simbAnul
@@ -477,8 +465,8 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             for(){      //
                 e5rt
             }
-        }
-        
+        } */
+        return viejo;
         
     }
 
@@ -548,8 +536,9 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         
         //transformIntoCNF();       //coger la gramatica ya transformada en CNF
         int n=word.length();    //longitud de la palabra
-        table=new String [n+1][n+1];    //crea la tabla con la misma longitud de la palabra, +1 porque deja un espacio para los nº
-                        //i     //j
+        table=new String [n+1][n];    //crea la tabla con la misma longitud de la palabra, +1 porque deja un espacio para word
+                        //j     //i
+        //i=columnas   j=filas
         
         /*for(int i=1; i<n; i++){
             table[i][0]=Integer.toString(i);    //pone nº en la columna 0  (?)
@@ -560,25 +549,45 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             table[0][j]= ;   //pone word en la fila 0  (?) comprobar si van
         } */
         
-        word.toCharArray();
+        for(int i=0; i<n; i++){                 //pone las letras de word en la primera fila de la tabla
+            char letrasWord=word.charAt(i);     //pasa word de string a char
+            table[0][i]=Character.toString(letrasWord);
+        }
+        
         //Empieza el algoritmo
-       for(int i=1; i<n; i++){     //i=filas
-           List<Character> listaChars=new ArrayList<>();
+        for(int i=1; i<n+1; i++){     //i=filas     n+1 para que se ejecute n veces, ya q i empieza a 1
+            List<Character> listaChars=new ArrayList<>();
            
-           if(inverseProd.containsKey("a")){
-               listaChars=inverseProd.get("a");
-           }
-           System.out.println(listaChars);
-           
-           //añadir a la matriz
-        } 
+            if(inverseProd.containsKey(table[0][i-1])){
+                listaChars=inverseProd.get(table[0][i-1]);
+            }
+            
+            StringBuilder sb=new StringBuilder();
+            for(Character ch: listaChars){
+                sb.append(ch).append(", ");
+            }
+
+            sb.reverse();
+            sb.deleteCharAt(1);
+            sb.reverse();
+
+            String str=sb.toString();
+            //System.out.print(str+"\n");
+
+            table [1][i-1]= str;      //pone str en la 1ª fila de la tabla
+        }
+
+        //imprime la tabla
+        for (int i = 0; i < table.length; i++) {
+            for (int j = 0; j < table[i].length; j++) {
+                System.out.print(table[i][j] + " ");
+            }
+            System.out.println();
+        }
         
         //inverseProd=Character, List<String>
 
-        
 
-       
-       
        
         /*for(int j=2; j<n; j++){     //j=columnas
             for(int i=1; i<n-j+1; i++){
