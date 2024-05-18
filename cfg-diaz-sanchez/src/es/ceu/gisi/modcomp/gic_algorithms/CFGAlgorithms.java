@@ -217,6 +217,10 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                 if(producciones.get(nonterminal)!=null){    //si ya hay una lista de prods para el NT, se coge esta
                     listaProds=getProductions(nonterminal);   //añade a la lista la nueva prod
                 }
+                
+                if(inverseProd.get(production)!=null){
+                    listaChars=inverseProd.get(production);     //añade la prod añadida anteriormente a la lista
+                }
 
                 listaProds.add(production);     //si llega, todas las letras son T o NT. Añade la prod a la lista
                 listaChars.add(nonterminal);
@@ -539,22 +543,23 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             table[0][j]= ;   //pone word en la fila 0  (?) comprobar si van
         } */
         
-        /*word.toCharArray();
+        word.toCharArray();
         //Empieza el algoritmo
        for(int i=1; i<n; i++){     //i=filas
-            fdv
-        } */
+           List<Character> listaChars=new ArrayList<>();
+           
+           if(inverseProd.containsKey("a")){
+               listaChars=inverseProd.get("a");
+           }
+           System.out.println(listaChars);
+           
+           //añadir a la matriz
+        } 
         
         //inverseProd=Character, List<String>
-        List<Character> x=new ArrayList<>();
-        List<Character> listaChars=new ArrayList<>();
+
         
-       if(inverseProd.containsKey("a")){
-           x=inverseProd.get("a");
-           listaChars.add(x);
-           
-       }
-       System.out.println(listaChars);
+
        
        
        

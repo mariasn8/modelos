@@ -571,7 +571,7 @@ public class T1_CFGBasicTest {
         gica.addProduction('C', "a");
         
         System.out.println(gica.getGrammar()+"\n");
-        //gica.isDerivedUsignCYK("bcaa");
+        gica.isDerivedUsignCYK("bcaa");
         
         assertEquals("A::=BA|a"+"\n"+"B::=CC|b"+"\n"+"C::=AB|a"+"\n"+"S::=AB|BC", gica.getGrammar());
     }
