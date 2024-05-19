@@ -113,35 +113,38 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     public void removeTerminal(char terminal) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 
-        try {
-            
-            String valor = String.valueOf(terminal);     
-            
-            if (terminales.contains(terminal)){
-                
-                terminales.remove(terminal);
+       try {
+        if (terminales.contains(terminal)) {
+            terminales.remove(terminal);
 
-                Iterator <Character> i = noterminales.iterator();
-                while (i.hasNext()){
-                
-                    List <String> lista = getProductions(i.next());
+            Iterator<Character> i = noterminales.iterator();
+            while (i.hasNext()) {
+                Character noTerminal = i.next();
+                List<String> lista = getProductions(noTerminal);
+                // hay que utilizar el iterador ya que no esta permitido en java borrar en una lista mientras está iterando.
+                Iterator<String> listIterator = lista.iterator();
+                while (listIterator.hasNext()) {
+                    String produccion = listIterator.next();
 
-                    if(lista.contains(String.valueOf(terminal))){     
-                    lista.remove(String.valueOf(terminal));
+                    if (produccion.equals(String.valueOf(terminal))) {
+                        listIterator.remove();
+                    } else {
+                        char[] charArray = produccion.toCharArray();
+                        for (char c : charArray) {
+                            if (c == terminal) {
+                                listIterator.remove();
+                                break;
+                            }
+                        }
                     }
-                    
                 }
             }
-            
-            else{
-            throw new CFGAlgorithmsException();               
-            }
-            
-        } catch(CFGAlgorithmsException e){
-            
-            throw e;
-        
+        } else {
+            throw new CFGAlgorithmsException();
         }
+    } catch (CFGAlgorithmsException e) {
+        throw e;
+    }
     }
 
 
