@@ -378,7 +378,43 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //G
     public boolean hasUselessProductions() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      
+        ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
+         
+        Character noterminal= null;
+        List<String> producciones;
+        
+        int j;
+        int i;
+        for (i=0;i<noterminales.size();i++) {
+
+        
+            noterminal=listanoterminales.get(i);
+            producciones = getProductions(noterminal);
+        
+            System.out.println(noterminal);
+            System.out.println(producciones);
+
+            if(producciones!=null){
+
+                ArrayList<String>produccionesord = new ArrayList<>(producciones);
+
+                for(j=0;j<produccionesord.size();j++){
+                    
+                    System.out.println(produccionesord.get(j));
+                    System.out.println(produccionesord.get(j) + noterminal.toString());
+                    System.out.println(produccionesord.get(j).equals(noterminal.toString()));
+                    
+                    if(produccionesord.get(j).equals(noterminal.toString())){
+
+                       System.out.println("patata");
+                       return true;
+                    }
+                }
+            }
+        } 
+        return false;
     }
 
 
