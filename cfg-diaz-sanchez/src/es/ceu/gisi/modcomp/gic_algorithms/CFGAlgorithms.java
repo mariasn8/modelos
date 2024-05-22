@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -378,7 +380,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //G
     public boolean hasUselessProductions() {
-                //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
       
         ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
          
@@ -417,52 +419,47 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //G
     public List<String> removeUselessProductions() { 
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody }
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody }
+        
         ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
         List<String> listafinal = new ArrayList<>();
         Character noterminal= null;
-        
+
         List<String> producciones;
-        
-        
+
         int j;
         int i;
         for (i=0;i<noterminales.size();i++) {
 
-        
             noterminal=listanoterminales.get(i);
             producciones = getProductions(noterminal);
-        
-            
 
             if(producciones!=null){
 
                 ArrayList<String>produccionesord = new ArrayList<>(producciones);
 
-                for(j=0;j<produccionesord.size();j++){
-                    
-                    
-                    
+                for(j=0;j<produccionesord.size();j++){  
+
                     if(produccionesord.get(j).equals(noterminal.toString())){
-                       
-                       
-                       if(listafinal.size()<1){
-                       listafinal.add(producciones.get(j)+"::="+noterminal.toString());
-                       }
-                       else{
-                       listafinal.add("|"+noterminal.toString());
-                       }
-                       
+
                         try {
+                            if(listafinal.size()<1){
+                                listafinal.add(producciones.get(j)+"::="+noterminal.toString());
+                            }
+                            else{
+                                listafinal.add("|"+noterminal.toString());
+                            }
+                            
                             removeProduction(noterminal,producciones.get(j));
                         } catch (CFGAlgorithmsException ex) {
                             Logger.getLogger(CFGAlgorithms.class.getName()).log(Level.SEVERE, null, ex);
-                        } 
+                        }
+
                     }
                 }
             }
         } 
-      return listafinal;
+        return listafinal;
     }
 
 
@@ -619,6 +616,12 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                 char letrasWord=word.charAt(i);     //pasa word de string a char
                 table[0][i]=Character.toString(letrasWord);
             }
+            
+            for(int i=0; i<n; i++){     //para recorrer word
+                if(Character.isUpperCase(word.charAt(i))){      //si el caracter de la posicion i de word es mayus, eroro
+                    throw new CFGAlgorithmsException();
+                }
+            }
 
             //Empieza el algoritmo
             for(int i=1; i<n+1; i++){     //i=filas     n+1 para que se ejecute n veces, ya q i empieza a 1
@@ -691,15 +694,15 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                 }
             }
 
-            for (int j=0; j<table.length; j++) {    //j=filas
+            /*for (int j=0; j<table.length; j++) {    //j=filas
                 for (int i=0; i<table[j].length; i++) {     //i=columnas
                     System.out.print(table[j][i] + " | ");
 
                 }
                 System.out.println();
 
-            }
-
+            } */
+            algorithmCYKStateToString(word);
             return table[n][0].contains(Character.toString(axioma));      //devuelve true o false
         
         }catch(CFGAlgorithmsException e){
@@ -712,28 +715,20 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //M
     public String algorithmCYKStateToString(String word) throws CFGAlgorithmsException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         
-        /*String s="";
-        int n=word.length();
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                s+=table[i][j];
-            }
-            s+=" "+"\n";
-        }
-        return s; */
-        
-        /*String x="";
+        String x="";
         for (int j=0; j<table.length; j++) {    //j=filas
             for (int i=0; i<table[j].length; i++) {     //i=columnas
                 //System.out.print(table[j][i] + " | ");
-                x=table[j][i];
+                x+=table[j][i]+" | ";
             }
             //System.out.println();
             x+="\n";
         }
-        return x; */
+        System.out.print(x);
+        System.out.println();
+        return x;
     }
     
 }
