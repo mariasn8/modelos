@@ -60,16 +60,42 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     public void removeNonTerminal(char nonterminal) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         try{
+            
+        
             if(noterminales.contains(nonterminal)){     //si el NT esta en la lista,
                 noterminales.remove(nonterminal);       //se borra
                 producciones.remove(nonterminal);
+                
+                //recorrer prods del NT y si el NT esta en ellas borrarlo
+                for(Character ch:noterminales){
+                    List<String> listaNoterm = getProductions(ch);      //prods de un no terminal
+
+                    Iterator<String> listaIt = listaNoterm.iterator();
+                    while (listaIt.hasNext()) {
+                        String prod = listaIt.next();       //String de la parte dcha de una prod, en A::=ABa sería el ABa
+                        
+                        if (prod.equals(String.valueOf(nonterminal))) {      //para borrar una letra sola
+                            listaIt.remove();  
+                        
+                        } else {
+                            char [] prodDividida=prod.toCharArray();    //pasa la parte dcha de la prod a un array de chars
+                            for (char c : prodDividida) {   //recorre el array y si alguna letra coincide, la borra
+                                if (c == nonterminal) {
+                                    listaIt.remove();
+                                    break;      //si borra, para y vuelve al while
+                                }
+                            }
+                        }
+                    }
+                
+                }
             }
             
             else{
                 throw new CFGAlgorithmsException();
             }
             
-        } catch(CFGAlgorithmsException e){
+        }catch(CFGAlgorithmsException e){
             throw e;
         }
         
@@ -122,21 +148,21 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
             Iterator<Character> i = noterminales.iterator();
             while (i.hasNext()) {
-                Character noTerminal = i.next();
+                Character noTerminal = i.next();    //pasa al siguiente elemento
                 List<String> lista = getProductions(noTerminal);
                 // hay que utilizar el iterador ya que no esta permitido en java borrar en una lista mientras está iterando.
                 Iterator<String> listIterator = lista.iterator();
                 while (listIterator.hasNext()) {
                     String produccion = listIterator.next();
 
-                    if (produccion.equals(String.valueOf(terminal))) {
+                    if (produccion.equals(String.valueOf(terminal))) {      //para una letra sola
                         listIterator.remove();
-                    } else {
+                    } else {    //para un conjunto de letras que contenga a terminal
                         char[] charArray = produccion.toCharArray();
                         for (char c : charArray) {
                             if (c == terminal) {
                                 listIterator.remove();
-                                break;
+                                break;      //si borra, para y vuelve al while
                             }
                         }
                     }
@@ -725,8 +751,9 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                 x+=table[j][i]+" | ";
             }
             //System.out.println();
-            x+="\n";
+            x=x.substring(0, x.length()-3)+"\n";    //borra el ulitmo " | "
         }
+        
         System.out.print(x);
         System.out.println();
         return x;

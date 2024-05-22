@@ -105,10 +105,21 @@ public class T1_CFGBasicTest {
         assertEquals("S::=b|l", gica.getProductionsToString('S'));
         assertEquals("A::=l", gica.getProductionsToString('A'));
     }
+    
+    
+    
+    @Test   //*
+    public void comprobarEliminarTerminalNoValido() throws CFGAlgorithmsException {
+        thrown.expect(CFGAlgorithmsException.class);
+        gica = new CFGAlgorithms();
+        gica.addTerminal('a');
+
+        gica.removeTerminal('b');
+    }
 
 
 
-    @Test
+    @Test   //*
     public void comprobarAniadirNoTerminalValido() throws CFGAlgorithmsException {
         gica = new CFGAlgorithms();
         gica.addNonTerminal('S');
@@ -116,7 +127,7 @@ public class T1_CFGBasicTest {
 
 
 
-    @Test
+    @Test   //*
     public void comprobarAniadirNoTerminalNoValido1() throws CFGAlgorithmsException {
         thrown.expect(CFGAlgorithmsException.class);
         gica = new CFGAlgorithms();
@@ -125,7 +136,7 @@ public class T1_CFGBasicTest {
 
 
 
-    @Test
+    @Test   //*
     public void comprobarAniadirNoTerminalNoValido2() throws CFGAlgorithmsException {
         thrown.expect(CFGAlgorithmsException.class);
         gica = new CFGAlgorithms();
@@ -134,7 +145,7 @@ public class T1_CFGBasicTest {
 
 
 
-    @Test
+    @Test   //*
     public void comprobarAniadirNoTerminalNoValido3() throws CFGAlgorithmsException {
         thrown.expect(CFGAlgorithmsException.class);
         gica = new CFGAlgorithms();
@@ -144,7 +155,7 @@ public class T1_CFGBasicTest {
     
     
     
-    @Test
+    @Test   //*
     public void comprobarEliminarNoTerminalValido1() throws CFGAlgorithmsException {
         gica = new CFGAlgorithms();
         gica.addNonTerminal('A');
@@ -156,7 +167,7 @@ public class T1_CFGBasicTest {
     
     
     
-    @Test
+    @Test   //*
     public void comprobarEliminarNoTerminalValido2() throws CFGAlgorithmsException {
         gica = new CFGAlgorithms();
         gica.addTerminal('a');
@@ -175,7 +186,28 @@ public class T1_CFGBasicTest {
 
         assertTrue(gica.getNonTerminals().size() == 1);
         assertTrue(gica.getNonTerminals().contains('S'));
-        assertEquals("S::=ASa|b|l", gica.getProductionsToString('S'));
+        assertEquals("S::=b|l", gica.getProductionsToString('S'));
+    }
+    
+    
+    
+    @Test   //*
+    public void comprobarEliminarNoTerminalNoValido() throws CFGAlgorithmsException {
+        thrown.expect(CFGAlgorithmsException.class);
+        gica = new CFGAlgorithms();
+        gica.addTerminal('a');
+        gica.addTerminal('b');
+        
+        gica.addNonTerminal('S');
+        gica.addNonTerminal('A');
+        
+        gica.addProduction('S', "ASa");
+        gica.addProduction('S', "b");
+        gica.addProduction('S', "l");
+        gica.addProduction('A', "l");
+        gica.addProduction('A', "a");
+
+        gica.removeNonTerminal('B');
     }
 
 
@@ -544,7 +576,7 @@ public class T1_CFGBasicTest {
 
     
     
-    @Test
+    @Test   //*
     public void comprobarRecuperarGramatica() throws CFGAlgorithmsException{
         gica=new CFGAlgorithms();
         
@@ -570,12 +602,12 @@ public class T1_CFGBasicTest {
         gica.addProduction('C', "AB");
         gica.addProduction('C', "a");
         
-        System.out.println(gica.getGrammar()+"\n");
+        //System.out.println(gica.getGrammar()+"\n");
         
         assertEquals("A::=BA|a"+"\n"+"B::=CC|b"+"\n"+"C::=AB|a"+"\n"+"S::=AB|BC", gica.getGrammar());
     }
     
-    @Test
+    @Test   //*
     public void comprobarRecuperarGramatica2() throws CFGAlgorithmsException{
         gica=new CFGAlgorithms();
         
