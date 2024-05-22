@@ -4,6 +4,7 @@ import es.ceu.gisi.modcomp.gic_algorithms.exceptions.CFGAlgorithmsException;
 import es.ceu.gisi.modcomp.gic_algorithms.interfaces.*;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.*;
 
 import java.util.*;
 
