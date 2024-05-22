@@ -113,35 +113,38 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     public void removeTerminal(char terminal) throws CFGAlgorithmsException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 
-        try {
-            
-            String valor = String.valueOf(terminal);     
-            
-            if (terminales.contains(terminal)){
-                
-                terminales.remove(terminal);
+       try {
+        if (terminales.contains(terminal)) {
+            terminales.remove(terminal);
 
-                Iterator <Character> i = noterminales.iterator();
-                while (i.hasNext()){
-                
-                    List <String> lista = getProductions(i.next());
+            Iterator<Character> i = noterminales.iterator();
+            while (i.hasNext()) {
+                Character noTerminal = i.next();
+                List<String> lista = getProductions(noTerminal);
+                // hay que utilizar el iterador ya que no esta permitido en java borrar en una lista mientras está iterando.
+                Iterator<String> listIterator = lista.iterator();
+                while (listIterator.hasNext()) {
+                    String produccion = listIterator.next();
 
-                    if(lista.contains(String.valueOf(terminal))){     
-                    lista.remove(String.valueOf(terminal));
+                    if (produccion.equals(String.valueOf(terminal))) {
+                        listIterator.remove();
+                    } else {
+                        char[] charArray = produccion.toCharArray();
+                        for (char c : charArray) {
+                            if (c == terminal) {
+                                listIterator.remove();
+                                break;
+                            }
+                        }
                     }
-                    
                 }
             }
-            
-            else{
-            throw new CFGAlgorithmsException();               
-            }
-            
-        } catch(CFGAlgorithmsException e){
-            
-            throw e;
-        
+        } else {
+            throw new CFGAlgorithmsException();
         }
+    } catch (CFGAlgorithmsException e) {
+        throw e;
+    }
     }
 
 
@@ -375,7 +378,43 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //G
     public boolean hasUselessProductions() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      
+        ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
+         
+        Character noterminal= null;
+        List<String> producciones;
+        
+        int j;
+        int i;
+        for (i=0;i<noterminales.size();i++) {
+
+        
+            noterminal=listanoterminales.get(i);
+            producciones = getProductions(noterminal);
+        
+            System.out.println(noterminal);
+            System.out.println(producciones);
+
+            if(producciones!=null){
+
+                ArrayList<String>produccionesord = new ArrayList<>(producciones);
+
+                for(j=0;j<produccionesord.size();j++){
+                    
+                    System.out.println(produccionesord.get(j));
+                    System.out.println(produccionesord.get(j) + noterminal.toString());
+                    System.out.println(produccionesord.get(j).equals(noterminal.toString()));
+                    
+                    if(produccionesord.get(j).equals(noterminal.toString())){
+
+                       System.out.println("patata");
+                       return true;
+                    }
+                }
+            }
+        } 
+        return false;
     }
 
 
