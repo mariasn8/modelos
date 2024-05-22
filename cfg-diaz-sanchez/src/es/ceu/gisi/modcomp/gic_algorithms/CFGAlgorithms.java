@@ -382,12 +382,12 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //G
     public List<String> removeUselessProductions() { 
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody }
     }
 
 
 
-    @Override   //G
+    @Override   //G  q use los los algortimos 1 y2 
     public List<Character> removeUselessSymbols() { 
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -399,14 +399,8 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         String gram=getGrammar();  
         
-        
-        if(gram.contains("l")){    //comprueba si la gramatica contiene la l
-            return true;
-        }
-        
-        else{
-            return false;       //SIN ACABAR, FALTA ELIMINAR LAS C, Q SON SIMBOLOS INUTILES
-        }
+        return gram.contains("l"); //comprueba si la gramatica contiene la l
+        //SIN ACABAR, FALTA ELIMINAR LAS C, Q SON SIMBOLOS INUTILES
     }
 
     
@@ -540,16 +534,8 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                         //j     //i
         //i=columnas   j=filas
         
-        /*for(int i=1; i<n; i++){
-            table[i][0]=Integer.toString(i);    //pone nº en la columna 0  (?)
-        } */
-        
-        /*for(int j=1; j<n; j++){
-            //for(int a=0; a<n; a++)
-            table[0][j]= ;   //pone word en la fila 0  (?) comprobar si van
-        } */
-        
-        for(int i=0; i<n; i++){                 //pone las letras de word en la primera fila de la tabla
+        //pone las letras de word en la 1ª fila de la tabla
+        for(int i=0; i<n; i++){
             char letrasWord=word.charAt(i);     //pasa word de string a char
             table[0][i]=Character.toString(letrasWord);
         }
@@ -559,7 +545,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             List<Character> listaChars=new ArrayList<>();
            
             if(inverseProd.containsKey(table[0][i-1])){
-                listaChars=inverseProd.get(table[0][i-1]);
+                listaChars=inverseProd.get(table[0][i-1]);      //coge las letras q la producen
             }
             
             StringBuilder sb=new StringBuilder();
@@ -568,35 +554,80 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             }
 
             sb.reverse();
-            sb.deleteCharAt(1);
-            sb.reverse();
+            sb.deleteCharAt(0).deleteCharAt(0);  //borra el ultimo ", "
+            sb.reverse(); 
+            //sb.append("|\t");
 
             String str=sb.toString();
             //System.out.print(str+"\n");
 
-            table [1][i-1]= str;      //pone str en la 1ª fila de la tabla
+            table [1][i-1]=str;      //pone str en la 1ª fila de la tabla
         }
+        
+        //inverseProd=String, List<Character>
+       
+        //2ª parte del algoritmo
+        for(int j=2; j<=n; j++){     //avanza de fila       <= porque si no falta por ejecutarse 1 vez
+            for(int i=1; i<=n-j+1; i++){     //avanza en las columnas de la fila
+                table[j][i-1]="";       //casilla actual, vacía
 
+                for(int k=1; k<=j-1; k++){
+                    //concatenar lo q haya en las celdas superiores en un string, dsps ver si inverseProd lo tiene como en la 1ª parte
+                    
+                    //String combo=table[j-k][i-1]+table[j-k][i-1+k];     //la casilla de encima y la diagonal de la dcha
+                    //String x=combo.replaceAll(",", "").replaceAll(" ", "");     //borra los espacios en blanco y ","
+                    
+                    /*String w="";
+                    for(int z=0; z<k; z++){
+                        w= table[j-k][i-1]+table[j-k][i-1+k].charAt(z);
+                    }
+                    String x=w.replaceAll(",", "").replaceAll(" ", ""); */
+                    
+                    //String str2=table[j-k][i-1].replaceAll(",", "").replaceAll(" ", "");
+                    //int x=str2.length();
+                    
+                    String [] arriba=table[k][i-1].split(", ");   //al separarlo por , ya se divide para el array
+                    String [] diag=table[j-k][i-1+k].split(", ");
+
+                    for (String a : arriba) {   //recorre los elementos de la casilla de arriba
+                        for (String d : diag) { //recorre los de la casilla en diagonal arriba a la dcha
+                            String combo = a + d; //combina la 1ª letra de la 1ª casilla con las de la diagonal
+                    
+                            if(inverseProd.containsKey(combo)){
+                                //table[j][i-1]+=inverseProd.get(combo);
+                                List <Character>lista=inverseProd.get(combo);
+
+                                //StringBuilder sb=new StringBuilder();
+                                for(Character ch: lista){
+                                    //sb.append(ch).append(", ");
+                                    if(!table[j][i-1].contains(ch.toString())){ //si la casilla no contiene el character que hay en la lista,
+                                        table[j][i-1]+=ch+", ";                 //se añade a la tabla
+                                    }
+                                }   
+                            }
+                        }
+                    }
+                        
+                    if(table[j][i-1].endsWith(", ")){
+                    table[j][i-1]=table[j][i-1].substring(0, table[j][i-1].length()-2); 
+                    }       //el substring muestra todos los elementos del String menos los 2 ultimos (", ") 
+                }
+                if(table[j][i-1].isBlank()){
+                        table[j][i-1]="0";      //PARA EL CONJUNTO VACIO VAMOS A USAR EL 0
+                }
+            }
+        }
+        
         //imprime la tabla
-        for (int i = 0; i < table.length; i++) {
-            for (int j = 0; j < table[i].length; j++) {
-                System.out.print(table[i][j] + " ");
+        for (int j=0; j<table.length; j++) {        //avanza en filas
+            for (int i=0; i<table[j].length; i++) {     //avanza en columnas
+                System.out.print(table[j][i] + " ");
             }
             System.out.println();
         }
         
-        //inverseProd=Character, List<String>
-
-
-       
-        /*for(int j=2; j<n; j++){     //j=columnas
-            for(int i=1; i<n-j+1; i++){
-                casillaActual=null;
-                for(int k=1; k<j-1; k++){
-                    casillaActual+=fnk;
-                }
-            }
-        } */
+        //return table[n][0].contains(Character.toString(axioma));      //devuelve true o false
+        
         return true;
     } 
 
@@ -615,6 +646,14 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             s+=" "+"\n";
         }
         return s; */
+        
+        /*for (int i = 0; i < table.length; i++) {
+            for (int j = 0; j < table[i].length; j++) {
+                System.out.print(table[i][j] + " ");
+            }
+            System.out.println();
+        } */
+        
     }
 
 }
