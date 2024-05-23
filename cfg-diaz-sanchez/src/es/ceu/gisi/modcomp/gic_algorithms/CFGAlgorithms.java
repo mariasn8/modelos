@@ -493,7 +493,87 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //G  q use los los algortimos 1 y2 
     public List<Character> removeUselessSymbols() { 
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       // throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         List<Character> listafinal = new ArrayList<>();
+        
+        for (int i=0;i<noterminales.size();i++) {
+             
+             ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
+            Character noterminal= null;
+            List<String> produccion;
+        
+            Character noterminal2= null;
+            List<String> produccion2;
+             
+             
+            
+            noterminal2 =listanoterminales.get(i);
+            produccion2 = getProductions(noterminal2);
+            
+            
+             
+            for (int j=0;j<noterminales.size();j++) {
+                
+                noterminal=listanoterminales.get(j);
+                produccion = getProductions(noterminal);
+                
+                System.out.println(noterminal2);
+                System.out.println(noterminal);
+                
+                if(noterminal!=noterminal2){
+                
+                    if(produccion == null){
+                        
+
+                        System.out.println("patata");
+                        try{
+                            removeNonTerminal(noterminal);
+                        }
+                        catch (CFGAlgorithmsException e) {
+                       
+                        }
+                    }
+                    else{
+                        System.out.println(produccion);
+                        System.out.println(produccion2);
+                        
+                        if(produccion.equals(produccion2)){
+                            
+                            if(noterminal.equals(axioma)){
+                                System.out.println("funciona1");
+                                
+                                try{
+                                removeNonTerminal(noterminal2);
+                                }
+                                catch (CFGAlgorithmsException e) {
+                                }
+                            }
+                            else if(noterminal2.equals(axioma)){
+                                System.out.println("funciona2");
+                                try{
+                                removeNonTerminal(noterminal);
+                                }
+                                catch (CFGAlgorithmsException e) {
+
+                                }
+                            }
+                            else{
+                                System.out.println("funciona2");
+                                try{
+                                removeNonTerminal(noterminal);
+                                }
+                                catch (CFGAlgorithmsException e) {
+
+                                }
+                            }
+                            
+                        System.out.println("boniato");
+                        }    
+                    }
+                }        
+            }
+         }
+        return listafinal;
     }
 
 
