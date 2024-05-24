@@ -653,7 +653,63 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
     @Override   //G
     public boolean hasUnitProductions() { 
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
+        for (int i=0;i<noterminales.size();i++) {
+         
+            Character noterminal= null;
+            List<String> produccion = new ArrayList<>();
+          
+            noterminal =listanoterminales.get(i);
+            produccion = getProductions(noterminal);
+
+                System.out.println(noterminal + " " + produccion);
+                
+                if(produccion != null){
+                    
+                    for(int j=0;j<produccion.size();j++){
+                        
+                        int contador=0;
+                        
+                        System.out.println(produccion.get(j));
+                        String produccionIndividual = produccion.get(j);
+                        
+                        if(produccionIndividual.length() == 1){
+                            
+                           if(noterminales.contains(produccionIndividual.charAt(0))){
+                               
+                               return true;
+                           
+                           }
+                            
+                        }
+                        if(produccionIndividual.length() > 1){
+                            
+                            for(int k = 0; k<produccionIndividual.length();k++){
+                                
+                                if(noterminales.contains(produccionIndividual.charAt(k))){
+                               
+                                    contador ++;
+                           
+                                }
+                            
+                            }
+ 
+                        }
+                        if(contador == 1){
+                        
+                            return true;
+                        
+                        }
+                    
+                    }
+  
+                }
+  
+        }
+       
+         return false;
+        
     }
 
 
