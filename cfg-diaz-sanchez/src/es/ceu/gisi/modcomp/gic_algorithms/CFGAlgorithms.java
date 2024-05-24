@@ -447,46 +447,51 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //G
     public List<String> removeUselessProductions() { 
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody }
-        
-        ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
+       ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
         List<String> listafinal = new ArrayList<>();
         Character noterminal= null;
-
-        List<String> producciones;
-
+        
+        List<String> produccion;
+        
+        
         int j;
         int i;
         for (i=0;i<noterminales.size();i++) {
 
+        
             noterminal=listanoterminales.get(i);
-            producciones = getProductions(noterminal);
+            produccion = getProductions(noterminal);
+        
+            
 
-            if(producciones!=null){
+            if(produccion!=null){
 
-                ArrayList<String>produccionesord = new ArrayList<>(producciones);
+                ArrayList<String>produccionesord = new ArrayList<>(produccion);
 
-                for(j=0;j<produccionesord.size();j++){  
-
+                for(j=0;j<produccionesord.size();j++){
+                    
+                    
+                    
                     if(produccionesord.get(j).equals(noterminal.toString())){
-
+                       
+                       
+                       if(listafinal.size()<1){
+                       listafinal.add(produccion.get(j)+"::="+noterminal.toString());
+                       }
+                       else{
+                       listafinal.add("|"+noterminal.toString());
+                       }
+                       
                         try {
-                            if(listafinal.size()<1){
-                                listafinal.add(producciones.get(j)+"::="+noterminal.toString());
-                            }
-                            else{
-                                listafinal.add("|"+noterminal.toString());
-                            }
-                            
-                            removeProduction(noterminal,producciones.get(j));
+                            removeProduction(noterminal,produccion.get(j));
                         } catch (CFGAlgorithmsException ex) {
                             Logger.getLogger(CFGAlgorithms.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
+                        } 
                     }
                 }
             }
         } 
-        return listafinal;
+      return listafinal;
     }
 
 
