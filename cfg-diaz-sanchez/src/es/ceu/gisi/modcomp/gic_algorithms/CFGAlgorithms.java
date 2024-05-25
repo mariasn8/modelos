@@ -418,22 +418,17 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         int i;
         for (i=0;i<noterminales.size();i++) {
 
-        
             noterminal=listanoterminales.get(i);
             producciones = getProductions(noterminal);
         
-            
             if(producciones!=null){
 
                 ArrayList<String>produccionesord = new ArrayList<>(producciones);
 
                 for(j=0;j<produccionesord.size();j++){
                     
-                    
-                    
                     if(produccionesord.get(j).equals(noterminal.toString())){
 
-                      
                        return true;
                     }
                 }
@@ -501,7 +496,8 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
     @Override   //M
     public boolean hasLambdaProductions() {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        String gram=getGrammar();  
+        removeUselessSymbols();
+        String gram=getGrammar();
         
         return gram.contains("l"); //comprueba si la gramatica contiene la l
         //SIN ACABAR, FALTA ELIMINAR LAS C, Q SON SIMBOLOS INUTILES
@@ -521,33 +517,42 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         
         return listaLambda;     //NO FUNCIONA BIEN, FALTAN PRODS. ELIMINAR NORMAS Y SIMBOLOS INUTILES DSPS
         */
-        
-        String listaProds=getGrammar(); //pasarlo a arraylist
-        
+                        
         List<Character> viejo=new ArrayList<>();   //Set -> lista q no permite elementos repetidos
         List<Character>simbAnul=new ArrayList<>(); //simbolos anulables. coge los NT q tienen una produccion q hace l
         
-        //parten la gramatica en distintos trozos, por lineas y producciones
-        String[] listaPartida=listaProds.split("\n");   //parte el string por lineas    A::=Aa|a|B (1)    B::=Ba|b (2)  (por ej)
-        ArrayList<String> listaArray=new ArrayList<>(Arrays.asList(listaPartida));  //pasa el String a ArrayList
-    
-        /*String xx=Arrays.toString(listaPartida);
-        String[] prodsPartidas=xx.split("::=");     //separa la parte izda de la dcha de la prod
-        ArrayList<String> listaProdPartida=new ArrayList<>(Arrays.asList(prodsPartidas));   //lo pasa a ArrayList
-        */
-        
-        /*while(viejo!=simbAnul){
-            viejo=simbAnul;
-            for(){  //para todas las producciones que esten en la lista
-                if(producciones.containsValue(simbAnul)){   //si el valor de la prod pertenece a los simbAnul
-                    simbAnul=simbAnul+inverseProd.get("Aa");
+        //mete los NT en simbAnul q generan l directamente
+        for(Character noterm: producciones.keySet()){      //keySet devuelve un set con todas las claves del hashmap
+            List<String> prodsNoterm=producciones.get(noterm);  //coge la parte dcha de la prod
+            for(String prod: prodsNoterm){      //va recorriendo las partes dchas de la prod
+                if(prod.equals("l")){
+                    simbAnul.add(noterm);
                 }
             }
         }
         
-        List<Character> nuevasProds=new ArrayList<>();
+        //los NT q pden derivar en l
+        while(!viejo.equals(simbAnul)){
+            //viejo.addAll(simbAnul);
+            viejo=new ArrayList<>(simbAnul);
+            for(Character noterm: producciones.keySet()){  //recorrer las prods y si la parte dcha es producida por alguno de simbAnul
+                List<String> prodsNoterm=producciones.get(noterm);  //meter la parte izda en simbAnul tbm
+                for(String prod: prodsNoterm){
+                    
+                    for(int i=0; i<prod.length(); i++){     //recorre prod
+                        char x=prod.charAt(i);
+                        if(simbAnul.contains(x)){
+                            simbAnul.add(noterm);
+                        }
+                    }
+                }
+            }
+        }
         
-        for(){      //para todas las prods q esten en la lista de prods
+        System.out.println(simbAnul);
+        List<Character> prodsComb=new ArrayList<>();
+        //2ªparte del algoritmo
+        /*for(){      //para todas las prods q esten en la lista de prods
             for(int i=1;i<prods.size(); i++){   //¿?
                 werf
                 
@@ -564,7 +569,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                 e5rt
             }
         } */
-        return viejo;
+        return simbAnul;
         
     }
 
@@ -715,21 +720,13 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                             table[j][i-1]="0";      //PARA EL CONJUNTO VACIO VAMOS A USAR EL 0
                     }
 
-                    if(table[j][i-1].endsWith(", ")){   //borra el ultimo ", " de todo el string
+                    if(table[j][i-1].endsWith(", ")){   //borra el ultimo ", " cndo se ponen varias letras a la vez en la tabla
                         table[j][i-1]=table[j][i-1].substring(0, table[j][i-1].length()-2); 
                     }
                 }
             }
-
-            /*for (int j=0; j<table.length; j++) {    //j=filas
-                for (int i=0; i<table[j].length; i++) {     //i=columnas
-                    System.out.print(table[j][i] + " | ");
-
-                }
-                System.out.println();
-
-            } */
             algorithmCYKStateToString(word);
+            
             return table[n][0].contains(Character.toString(axioma));      //devuelve true o false
         
         }catch(CFGAlgorithmsException e){
@@ -746,11 +743,11 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         
         String x="";
         for (int j=0; j<table.length; j++) {    //j=filas
-            for (int i=0; i<table[j].length; i++) {     //i=columnas
-                //System.out.print(table[j][i] + " | ");
+            for (int i=0; i<table[j].length && table[j][i]!=null; i++) {     //i=columnas
+                
                 x+=table[j][i]+" | ";
             }
-            //System.out.println();
+            
             x=x.substring(0, x.length()-3)+"\n";    //borra el ulitmo " | "
         }
         
