@@ -486,6 +486,236 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         } 
       return listafinal;
     }
+    //metodo implementado por el alumno
+    public List<Character> eliminarTerminalesInutiles(){
+    
+    int contadorB;
+        ArrayList<Character>terminalesEliminados = new ArrayList<>();
+        ArrayList<Character>listaNoTerminales = new ArrayList<>(noterminales);
+        ArrayList<Character>listaTerminales = new ArrayList<>(terminales);
+        for( int i=0;i<terminales.size();i++){
+            contadorB = 0;
+            
+            Character terminal=listaTerminales.get(i);
+            
+            
+            for (int j=0;j<noterminales.size();j++){
+                Character noterminal = listaNoTerminales.get(j);
+                //System.out.println(terminal+ " is in "+noterminal+"?");
+                
+                if(getProductions(noterminal)!= null){
+               
+                    List<String> produccion = new ArrayList<>(getProductions(noterminal));
+                    //System.out.println(produccion);
+                    for(int z =0; z<produccion.size();z++){
+                       String oneProd = produccion.get(z);
+                       //System.out.println(oneProd);
+
+                        for(int y = 0; y<oneProd.length();y++){
+
+                            Character comparador = oneProd.charAt(y);
+                            //System.out.println(comparador+" is equal "+terminal+"??");
+                            if(comparador.equals(terminal)){
+                                contadorB++;
+
+                            }
+                            
+
+                        }
+
+                    }
+                }
+                
+            }
+            if(contadorB == 0){
+                terminalesEliminados.add(terminal);
+                terminales.remove(terminal);
+            }
+        
+        }
+        return terminalesEliminados;
+        
+    }
+    
+    //Siempre se puede terminar
+    public List<Character> UcanFinish(){
+    int contador;
+    ArrayList<Character>NoterminalesEliminados = new ArrayList<>();
+    ArrayList<Character>listaNoTerminales = new ArrayList<>(noterminales);
+    
+        for(int i = 0; i<noterminales.size();i++){
+        contador = 0;
+    
+        Character noterminal = listaNoTerminales.get(i); 
+        //System.out.println(" - "+noterminal+" ----------------------------------------");    
+            if(getProductions(noterminal)!= null){
+                
+                List<String> produccion = new ArrayList<>(getProductions(noterminal));
+                for(int z =0; z<produccion.size();z++){
+                    String oneProd = produccion.get(z);
+                    //System.out.println(oneProd);
+                    if(oneProd.length()==1 && !noterminales.contains(oneProd.charAt(0))){
+                        //System.out.println("STOP "+oneProd.charAt(0));
+                        contador++;
+                        
+                    }
+                    else if(oneProd.length()==1 && noterminales.contains(oneProd.charAt(0)) && !noterminales.equals(oneProd.charAt(0))){
+                        //System.out.println("STOP "+oneProd.charAt(0));
+                        contador++;
+                        
+                    }
+                    else{
+                        if(oneProd.length()==1){
+                        //System.out.println("CONTINUE "+oneProd.charAt(0));
+                        }
+                        else{
+                            for(int y = 0; y<oneProd.length();y++){
+                                Character comparador = oneProd.charAt(y);
+                                
+                                if(!comparador.equals(noterminal)&& noterminales.contains(comparador)){
+                                    //System.out.println("STOP");
+                                    contador++;
+                                    
+                                }
+                                else{
+                                   // System.out.println("CONTINUE " + comparador);
+                                }  
+                            }   
+                        }
+                    }
+                }
+            }
+            if(contador==0){
+            //System.out.println("BORRAR");
+            try{
+                removeNonTerminal(noterminal);
+                
+                }
+            catch (CFGAlgorithmsException e) {
+                       
+                }
+            }  
+        }
+        //System.out.println(noterminales);
+        return NoterminalesEliminados;
+    }
+   
+
+    @Override   //G  q use los los algortimos 1 y2 
+    public List<Character> removeUselessSymbols() { 
+     
+   
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Character>NoterminalesEliminados2 = new ArrayList<>();
+        eliminarTerminalesInutiles();
+        UcanFinish();
+        List<Character> listafinal = new ArrayList<>();
+        
+       
+        
+         //itera en cada noterminal
+        for (int i=0;i<noterminales.size();i++) {
+             
+            ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
+            
+            
+            
+        
+            
+            Character noterminal2 =listanoterminales.get(i);
+            
+            if(getProductions(noterminal2)== null){
+                        try{
+                        removeNonTerminal(noterminal2);
+                        break;
+                        }
+                        catch (CFGAlgorithmsException e) {
+                       
+                        }
+            }
+            List<String> produccion2 = new ArrayList<>(getProductions(noterminal2));
+            
+            for(int j =0;j<noterminales.size();j++){
+                
+                Character noterminal = listanoterminales.get(j);
+                
+                if(getProductions(noterminal)== null){
+                try{
+                        removeNonTerminal(noterminal);
+                        break;
+                        
+                        }
+                        catch (CFGAlgorithmsException e) {
+                       
+                        }
+                }
+                List<String> produccion = new ArrayList<>(getProductions(noterminal));
+
+            
+                //eliminar casos normales
+                if(!noterminal.equals(noterminal2)){
+                
+                //System.out.println(noterminal+" "+ produccion);
+                //System.out.println(noterminal2+" "+ produccion2);
+                
+                    if(produccion == null){
+                    
+
+                        
+                        try{
+                            removeNonTerminal(noterminal);
+                        }
+                        catch (CFGAlgorithmsException e) {
+                       
+                        }
+                    }
+                    else{
+                        //System.out.println(" pasa ");
+                        
+                        
+                        
+                        
+                        if(produccion.equals(produccion2)){
+                            
+                            //si alguno de los dos es el axioma
+                            if(noterminal.equals(axioma)||noterminal2.equals(axioma)){
+                                if(noterminal.equals(axioma)){
+
+                                    try{
+                                    removeNonTerminal(noterminal2);
+                                    }
+                                    catch (CFGAlgorithmsException e) {
+                                    }
+                                }
+                                else if(noterminal2.equals(axioma)){
+
+                                    try{
+                                    removeNonTerminal(noterminal);
+                                    }
+                                    catch (CFGAlgorithmsException e) {
+
+                                    }
+                                }
+                            }
+                            else{
+                               
+                                try{
+                                removeNonTerminal(noterminal);
+                                }
+                                catch (CFGAlgorithmsException e) {
+
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }        
+        }
+   
+        return NoterminalesEliminados2;
+
+    }
 
     @Override   //G
     public List<String> removeUnitProductions() {
