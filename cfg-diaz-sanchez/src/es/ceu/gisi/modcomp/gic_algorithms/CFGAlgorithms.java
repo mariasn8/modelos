@@ -627,7 +627,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             List<String> produccion2 = new ArrayList<>(getProductions(noterminal2));
             
             for(int j =0;j<noterminales.size();j++){
-
+                Character noterminal = listanoterminales.get(j);
                 if(getProductions(noterminal)== null){
                 try{
                         removeNonTerminal(noterminal);
