@@ -437,288 +437,68 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         return false;
     }
 
-
-
     @Override   //G
-    public List<String> removeUselessProductions() { 
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody }
-       ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
-        List<String> listafinal = new ArrayList<>();
-        Character noterminal= null;
-        
-        List<String> produccion;
-        
-        
-        int j;
-        int i;
-        for (i=0;i<noterminales.size();i++) {
+    public List<String> removeUnitProductions() {
+                //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    Character noterminal = null;
+    
+    List<String> produccion = new ArrayList<>();
+    
+    ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
+    
+    for (int i = 0; i < noterminales.size(); i++) {
 
-        
-            noterminal=listanoterminales.get(i);
+            noterminal = listanoterminales.get(i);
             produccion = getProductions(noterminal);
-        
-            
 
-            if(produccion!=null){
+            //System.out.println(noterminal + " " + produccion);
 
-                ArrayList<String>produccionesord = new ArrayList<>(produccion);
+            if (produccion != null) {
 
-                for(j=0;j<produccionesord.size();j++){
+                for (int j = 0; j < produccion.size(); j++) {
+
+                    String produccionIndividual = produccion.get(j);
                     
-                    
-                    
-                    if(produccionesord.get(j).equals(noterminal.toString())){
-                       
-                       
-                       if(listafinal.size()<1){
-                       listafinal.add(produccion.get(j)+"::="+noterminal.toString());
-                       }
-                       else{
-                       listafinal.add("|"+noterminal.toString());
-                       }
-                       
-                        try {
-                            removeProduction(noterminal,produccion.get(j));
-                        } catch (CFGAlgorithmsException ex) {
-                            Logger.getLogger(CFGAlgorithms.class.getName()).log(Level.SEVERE, null, ex);
-                        } 
-                    }
-                }
-            }
-        } 
-      return listafinal;
-    }
+                    if (produccionIndividual.length() == 1) {
 
-//metodos implementado por el alumno
-    public void eliminarTerminalesInutiles(){
-    
-    int contadorB;
- 
-        ArrayList<Character>listaNoTerminales = new ArrayList<>(noterminales);
-        ArrayList<Character>listaTerminales = new ArrayList<>(terminales);
-        for( int i=0;i<terminales.size();i++){
-            contadorB = 0;
-            
-            Character terminal=listaTerminales.get(i);
-            
-            
-            for (int j=0;j<noterminales.size();j++){
-                Character noterminal = listaNoTerminales.get(j);
-                //System.out.println(terminal+ " is in "+noterminal+"?");
-                
-                if(getProductions(noterminal)!= null){
-               
-                    List<String> produccion = new ArrayList<>(getProductions(noterminal));
-                    //System.out.println(produccion);
-                    for(int z =0; z<produccion.size();z++){
-                       String oneProd = produccion.get(z);
-                       //System.out.println(oneProd);
+                        if (noterminales.contains(produccionIndividual.charAt(0))) {
+                   
+                            try {
 
-                        for(int y = 0; y<oneProd.length();y++){
-
-                            Character comparador = oneProd.charAt(y);
-                            //System.out.println(comparador+" is equal "+terminal+"??");
-                            if(comparador.equals(terminal)){
-                                contadorB++;
-
-                            }
-                            
-
-                        }
-
-                    }
-                }
-                
-            }
-            if(contadorB == 0){
-                
-                terminales.remove(terminal);
-            }
-        
-        }
-        
-    }
-    
-    //Siempre se puede terminar
-    public void UcanFinish(){
-    int contador;    
-    ArrayList<Character>listaNoTerminales = new ArrayList<>(noterminales);
-    
-        for(int i = 0; i<noterminales.size();i++){
-        contador = 0;
-    
-        Character noterminal = listaNoTerminales.get(i); 
-        System.out.println(" - "+noterminal+" ----------------------------------------");    
-            if(getProductions(noterminal)!= null){
-                
-                List<String> produccion = new ArrayList<>(getProductions(noterminal));
-                for(int z =0; z<produccion.size();z++){
-                    String oneProd = produccion.get(z);
-                    //System.out.println(oneProd);
-                    if(oneProd.length()==1 && !noterminales.contains(oneProd.charAt(0))){
-                        //System.out.println("STOP "+oneProd.charAt(0));
-                        contador++;
-                        
-                    }
-                    else if(oneProd.length()==1 && noterminales.contains(oneProd.charAt(0)) && !noterminales.equals(oneProd.charAt(0))){
-                        //System.out.println("STOP "+oneProd.charAt(0));
-                        contador++;
-                        
-                    }
-                    else{
-                        if(oneProd.length()==1){
-                        //System.out.println("CONTINUE "+oneProd.charAt(0));
-                        }
-                        else{
-                            for(int y = 0; y<oneProd.length();y++){
-                                Character comparador = oneProd.charAt(y);
+                                removeProduction(noterminal, produccionIndividual);
                                 
-                                if(!comparador.equals(noterminal)&& noterminales.contains(comparador)){
-                                    //System.out.println("STOP");
-                                    contador++;
-                                    
-                                }
-                                else{
-                                   // System.out.println("CONTINUE " + comparador);
-                                }  
-                            }   
-                        }
-                    }
-                }
-            }
-            if(contador==0){
-            //System.out.println("BORRAR");
-            try{
-                removeNonTerminal(noterminal);
-                
-                }
-            catch (CFGAlgorithmsException e) {
-                       
-                }
-            }  
-        }
-        //System.out.println(noterminales);
-    }
-   
-
-    @Override   //G  q use los los algortimos 1 y2 
-    public List<Character> removeUselessSymbols() { 
-     
-   
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        
-        eliminarTerminalesInutiles();
-        UcanFinish();
-        List<Character> listafinal = new ArrayList<>();
-        
-       
-        
-         //itera en cada noterminal
-        for (int i=0;i<noterminales.size();i++) {
-             
-            ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
-            
-            
-            
-        
-            
-            Character noterminal2 =listanoterminales.get(i);
-            
-            if(getProductions(noterminal2)== null){
-                        try{
-                        removeNonTerminal(noterminal2);
-                        break;
-                        }
-                        catch (CFGAlgorithmsException e) {
-                       
-                        }
-            }
-            List<String> produccion2 = new ArrayList<>(getProductions(noterminal2));
-            
-            for(int j =0;j<noterminales.size();j++){
-                
-                Character noterminal = listanoterminales.get(j);
-                
-                if(getProductions(noterminal)== null){
-                try{
-                        removeNonTerminal(noterminal);
-                        break;
-                        
-                        }
-                        catch (CFGAlgorithmsException e) {
-                       
-                        }
-                }
-                List<String> produccion = new ArrayList<>(getProductions(noterminal));
-
-            
-                //eliminar casos normales
-                if(!noterminal.equals(noterminal2)){
-                
-                //System.out.println(noterminal+" "+ produccion);
-                //System.out.println(noterminal2+" "+ produccion2);
-                
-                    if(produccion == null){
-                    
-
-                        
-                        try{
-                            removeNonTerminal(noterminal);
-                        }
-                        catch (CFGAlgorithmsException e) {
-                       
-                        }
-                    }
-                    else{
-                        //System.out.println(" pasa ");
-                        
-                        
-                        
-                        
-                        if(produccion.equals(produccion2)){
-                            
-                            //si alguno de los dos es el axioma
-                            if(noterminal.equals(axioma)||noterminal2.equals(axioma)){
-                                if(noterminal.equals(axioma)){
-
-                                    try{
-                                    removeNonTerminal(noterminal2);
-                                    }
-                                    catch (CFGAlgorithmsException e) {
-                                    }
-                                }
-                                else if(noterminal2.equals(axioma)){
-
-                                    try{
-                                    removeNonTerminal(noterminal);
-                                    }
-                                    catch (CFGAlgorithmsException e) {
-
-                                    }
-                                }
-                            }
-                            else{
+                            } catch (CFGAlgorithmsException e) {
                                
-                                try{
-                                removeNonTerminal(noterminal);
-                                }
-                                catch (CFGAlgorithmsException e) {
+                            }
 
+                            
+                            Character unitaria = produccionIndividual.charAt(0);
+                            
+                            List<String> produccionesUnitarias = getProductions(unitaria);
+                            
+                            if (produccionesUnitarias != null) {
+                             for (String prod : produccionesUnitarias) {
+                                    
+                                    try {
+                                        
+                                        addProduction(noterminal, prod);
+                                        
+                                    } catch (CFGAlgorithmsException e) {
+                                        
+                                    }
                                 }
                             }
                         }
-                        
                     }
                 }
-            }        
+            }
         }
-            
+        return produccion;
+    }
+                                
          
         
-        System.out.println("final");
-        return listafinal;
-
-    }
+       
 
     @Override   //M
     public boolean hasLambdaProductions() {
