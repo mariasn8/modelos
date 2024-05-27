@@ -625,7 +625,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             List<String> produccion2 = new ArrayList<>(getProductions(noterminal2));
 
             for (int j = 0; j < noterminales.size(); j++) {
-
+                Character noterminal = listanoterminales.get(j);
                 if (getProductions(noterminal) == null) {
                     try {
                         removeNonTerminal(noterminal);
@@ -666,18 +666,11 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
                                     try {
                                         removeNonTerminal(noterminal2);
-                                    } catch (CFGAlgorithmsException e) {
-                                    }
-                                }
-                                else if (noterminal2.equals(axioma)) {
-
-                                    try {
-                                        removeNonTerminal(noterminal);
-                                    } catch (CFGAlgorithmsException e) {
+                                    } catch (CFGAlgorithmsException ex) {
 
                                     }
                                 }
-                            } else {
+                            } else if (noterminal2.equals(axioma)) {
 
                                 try {
                                     removeNonTerminal(noterminal);
@@ -685,15 +678,22 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
                                 }
                             }
+                        } else {
 
+                            try {
+                                removeNonTerminal(noterminal);
+                            } catch (CFGAlgorithmsException e) {
+
+                            }
                         }
+
                     }
                 }
             }
-
-            return NoterminalesEliminados2;
-
         }
+
+        return NoterminalesEliminados2;
+
     }
 
 
