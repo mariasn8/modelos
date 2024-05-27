@@ -596,113 +596,104 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
    
 
     @Override   //G 
-    public List<Character> removeUselessSymbols() { 
-     
-   
+    public List<Character> removeUselessSymbols() {
+
+
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        ArrayList<Character>NoterminalesEliminados2 = new ArrayList<>();
+        ArrayList<Character> NoterminalesEliminados2 = new ArrayList<>();
         eliminarTerminalesInutiles();
         UcanFinish();
         List<Character> listafinal = new ArrayList<>();
-        
-       
-        
-         //itera en cada noterminal
-        for (int i=0;i<noterminales.size();i++) {
-             
+
+
+        //itera en cada noterminal
+        for (int i = 0; i < noterminales.size(); i++) {
+
             ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
 
-            
-            Character noterminal2 =listanoterminales.get(i);
-            
-            if(getProductions(noterminal2)== null){
-                        try{
-                        removeNonTerminal(noterminal2);
-                        break;
-                        }
-                        catch (CFGAlgorithmsException e) {
-                       
-                        }
+
+            Character noterminal2 = listanoterminales.get(i);
+
+            if (getProductions(noterminal2) == null) {
+                try {
+                    removeNonTerminal(noterminal2);
+                    break;
+                } catch (CFGAlgorithmsException e) {
+
+                }
             }
             List<String> produccion2 = new ArrayList<>(getProductions(noterminal2));
-            
-            for(int j =0;j<noterminales.size();j++){
 
-                if(getProductions(noterminal)== null){
-                try{
+            for (int j = 0; j < noterminales.size(); j++) {
+
+                if (getProductions(noterminal) == null) {
+                    try {
                         removeNonTerminal(noterminal);
                         break;
-                        
-                        }
-                        catch (CFGAlgorithmsException e) {
-                       
-                        }
-                }
-                List<String> produccion = new ArrayList<>(getProductions(noterminal));
 
-            
-                //eliminar casos normales
-                if(!noterminal.equals(noterminal2)){
-                
-                //System.out.println(noterminal+" "+ produccion);
-                //System.out.println(noterminal2+" "+ produccion2);
-                
-                    if(produccion == null){
-                    
-
-                        //System.out.println(produccion);
-                        //System.out.println(produccion2);
-                        
-                        if(produccion.equals(produccion2)){
-                            
-                            if(noterminal.equals(axioma)){
-                                
-                                try{
-                                removeNonTerminal(noterminal2);
-                                }
-                                catch (CFGAlgorithmsException e) {
-                                }
-                            }
-                            else if(noterminal2.equals(axioma)){
-
-                                try{
-                                removeNonTerminal(noterminal);
-                                }
-                                catch (CFGAlgorithmsException e) {
-
-                                    try{
-                                    removeNonTerminal(noterminal2);
-                                    }
-                                    catch (CFGAlgorithmsException e) {
-                                    }
-                                }
-                                else if(noterminal2.equals(axioma)){
-
-                                    try{
-                                    removeNonTerminal(noterminal);
-                                    }
-                                    catch (CFGAlgorithmsException e) {
-
-                                    }
-                                }
-                            }
-                            else{
-
-                                try{
-                                removeNonTerminal(noterminal);
-                                }
-                                catch (CFGAlgorithmsException e) {
-
-                                }
-                            }
+                    } catch (CFGAlgorithmsException e) {
 
                     }
                 }
-            }        
-        }
-   
-        return NoterminalesEliminados2;
+                List<String> produccion = new ArrayList<>(getProductions(noterminal));
 
+
+                //eliminar casos normales
+                if (!noterminal.equals(noterminal2)) {
+
+                    //System.out.println(noterminal+" "+ produccion);
+                    //System.out.println(noterminal2+" "+ produccion2);
+
+                    if (produccion == null) {
+
+
+                        //System.out.println(produccion);
+                        //System.out.println(produccion2);
+
+                        if (produccion.equals(produccion2)) {
+
+                            if (noterminal.equals(axioma)) {
+
+                                try {
+                                    removeNonTerminal(noterminal2);
+                                } catch (CFGAlgorithmsException e) {
+                                }
+                            } else if (noterminal2.equals(axioma)) {
+
+                                try {
+                                    removeNonTerminal(noterminal);
+                                } catch (CFGAlgorithmsException e) {
+
+                                    try {
+                                        removeNonTerminal(noterminal2);
+                                    } catch (CFGAlgorithmsException e) {
+                                    }
+                                }
+                                else if (noterminal2.equals(axioma)) {
+
+                                    try {
+                                        removeNonTerminal(noterminal);
+                                    } catch (CFGAlgorithmsException e) {
+
+                                    }
+                                }
+                            } else {
+
+                                try {
+                                    removeNonTerminal(noterminal);
+                                } catch (CFGAlgorithmsException e) {
+
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            return NoterminalesEliminados2;
+
+        }
     }
 
 
