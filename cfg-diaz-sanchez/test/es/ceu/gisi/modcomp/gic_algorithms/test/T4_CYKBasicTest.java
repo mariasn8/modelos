@@ -101,6 +101,37 @@ public class T4_CYKBasicTest {
 
         gica.isDerivedUsignCYK("caabb");
     }
+    
+    
+    
+    @Test   //*
+    public void comprobarDerivacionNoValido3() throws CFGAlgorithmsException {
+
+        gica = new CFGAlgorithms();
+
+        gica.addNonTerminal('S');
+        gica.addNonTerminal('A');
+        gica.addNonTerminal('B');
+
+
+        gica.addTerminal('a');
+        gica.addTerminal('b');
+
+        gica.setStartSymbol('S');
+
+        gica.addProduction('S', "AA");
+        gica.addProduction('S', "BA");
+        gica.addProduction('S', "a");
+
+        gica.addProduction('A', "AA");
+        gica.addProduction('A', "BB");
+
+        gica.addProduction('B', "BB");
+        gica.addProduction('B', "SB");
+        gica.addProduction('B', "b");
+
+        gica.isDerivedUsignCYK("abab");
+    }
 
 
 
@@ -164,5 +195,37 @@ public class T4_CYKBasicTest {
         gica.addProduction('C', "a");
 
         assertFalse(gica.isDerivedUsignCYK("bbb"));
+    }
+    
+    
+    
+    @Test   //*
+    public void comprobarDerivacionValido3() throws CFGAlgorithmsException {
+
+        gica = new CFGAlgorithms();
+
+        gica.addNonTerminal('A');
+        gica.addNonTerminal('B');
+        gica.addNonTerminal('C');
+        gica.addNonTerminal('D');
+
+
+        gica.addTerminal('a');
+        gica.addTerminal('b');
+        gica.addTerminal('c');
+
+        gica.setStartSymbol('A');
+
+        gica.addProduction('A', "BC");
+        gica.addProduction('A', "a");
+
+        gica.addProduction('B', "CD");
+        
+        gica.addProduction('C', "BA");
+        gica.addProduction('C', "b");
+        
+        gica.addProduction('D', "c");
+
+        assertTrue(gica.isDerivedUsignCYK("bcacb"));
     }
 }

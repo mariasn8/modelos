@@ -448,24 +448,18 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         
         List<String> produccion;
         
-        
         int j;
         int i;
         for (i=0;i<noterminales.size();i++) {
-
         
             noterminal=listanoterminales.get(i);
             produccion = getProductions(noterminal);
-        
-            
 
             if(produccion!=null){
 
                 ArrayList<String>produccionesord = new ArrayList<>(produccion);
 
                 for(j=0;j<produccionesord.size();j++){
-                    
-                    
                     
                     if(produccionesord.get(j).equals(noterminal.toString())){
                        
@@ -491,41 +485,35 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
 
 
 
-    @Override   //G  q use los los algortimos 1 y2 
+    @Override   //G 
     public List<Character> removeUselessSymbols() { 
        // throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
          List<Character> listafinal = new ArrayList<>();
         
         for (int i=0;i<noterminales.size();i++) {
              
-             ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
+            ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
             Character noterminal= null;
             List<String> produccion;
         
             Character noterminal2= null;
             List<String> produccion2;
-             
-             
-            
+  
             noterminal2 =listanoterminales.get(i);
             produccion2 = getProductions(noterminal2);
-            
-            
              
             for (int j=0;j<noterminales.size();j++) {
                 
                 noterminal=listanoterminales.get(j);
                 produccion = getProductions(noterminal);
                 
-                System.out.println(noterminal2);
-                System.out.println(noterminal);
+                //System.out.println(noterminal2);
+                //System.out.println(noterminal);
                 
-                if(noterminal!=noterminal2){
+                if(!noterminal.equals(noterminal2)){
                 
                     if(produccion == null){
-                        
 
-                        System.out.println("patata");
                         try{
                             removeNonTerminal(noterminal);
                         }
@@ -534,13 +522,12 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                         }
                     }
                     else{
-                        System.out.println(produccion);
-                        System.out.println(produccion2);
+                        //System.out.println(produccion);
+                        //System.out.println(produccion2);
                         
                         if(produccion.equals(produccion2)){
                             
                             if(noterminal.equals(axioma)){
-                                System.out.println("funciona1");
                                 
                                 try{
                                 removeNonTerminal(noterminal2);
@@ -549,7 +536,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                                 }
                             }
                             else if(noterminal2.equals(axioma)){
-                                System.out.println("funciona2");
+
                                 try{
                                 removeNonTerminal(noterminal);
                                 }
@@ -558,7 +545,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                                 }
                             }
                             else{
-                                System.out.println("funciona2");
+
                                 try{
                                 removeNonTerminal(noterminal);
                                 }
@@ -567,7 +554,6 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                                 }
                             }
                             
-                        System.out.println("boniato");
                         }    
                     }
                 }        
@@ -585,7 +571,6 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         String gram=getGrammar();
         
         return gram.contains("l"); //comprueba si la gramatica contiene la l
-        //SIN ACABAR, FALTA ELIMINAR LAS C, Q SON SIMBOLOS INUTILES
     }
 
     
@@ -600,7 +585,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             inverseProd.remove("l");
         }
         
-        return listaLambda;     //NO FUNCIONA BIEN, FALTAN PRODS. ELIMINAR NORMAS Y SIMBOLOS INUTILES DSPS
+        return listaLambda;
         */
                         
         List<Character> viejo=new ArrayList<>();   //Set -> lista q no permite elementos repetidos
@@ -616,7 +601,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             }
         }
         
-        //los NT q pden derivar en l
+        //1ª parte      los NT q pden derivar en lambda
         while(!viejo.equals(simbAnul)){
             //viejo.addAll(simbAnul);
             viejo=new ArrayList<>(simbAnul);
@@ -626,7 +611,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                     
                     for(int i=0; i<prod.length(); i++){     //recorre prod
                         char x=prod.charAt(i);
-                        if(simbAnul.contains(x)){
+                        if(simbAnul.contains(x) && !simbAnul.contains(noterm)){
                             simbAnul.add(noterm);
                         }
                     }
@@ -634,28 +619,52 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             }
         }
         
-        System.out.println(simbAnul);
-        List<Character> prodsComb=new ArrayList<>();
-        //2ªparte del algoritmo
-        /*for(){      //para todas las prods q esten en la lista de prods
-            for(int i=1;i<prods.size(); i++){   //¿?
-                werf
-                
-                if(){   //si el lado dcho de la prod no es anulable
-                    rdfg
-                }
-                
-                else if(){   //si el lado dcho si es anulable
-                    sr
-                }
-            }
-            
-            for(){      //
-                e5rt
-            }
-        } */
-        return simbAnul;
+        //System.out.println(simbAnul);
+        List<String> prodsComb=new ArrayList<>();
         
+        //2ªparte del algoritmo
+        for(Character noterm: producciones.keySet()){  //recorrer las prods y si la parte dcha es producida por alguno de simbAnul
+            List<String> prodsNoterm=producciones.get(noterm);  //meter la parte izda en simbAnul tbm
+            for(String prod: prodsNoterm){
+
+                List<String> combinar=combos(prod, simbAnul);
+                for(String str: combinar){
+                    prodsComb.add(noterm, str);
+                }
+            }
+        }
+        List<String>lambda=new ArrayList<>();
+        lambda.add("l");
+        
+        if(simbAnul.contains(axioma) && !getProductions(axioma).contains("l")){      //añade S::=l si no existe
+            producciones.put(axioma, lambda);
+        }
+        
+        return simbAnul;
+
+        
+    }
+
+    private List<String> combos(String prod, List<Character> simbAnul){
+        List<String> lista=new ArrayList<>();
+        if(prod.length()==1){
+            if(simbAnul.contains(prod.charAt(0))){  //si la letra de la prod esta en simbAnul, se cambia por l
+                lista.add("l");
+            }
+            else{
+                lista.add(prod);    //sino, se deja igual
+            }
+        }
+        else{
+            for(int i=0; i<prod.length(); i++){    //recorre prod
+                char x=prod.charAt(i);
+                if(simbAnul.contains(x)){
+                    String prod2=prod.substring(0, i)+prod.substring(i+1);
+                    lista.add(prod2);
+                }
+            }
+        }
+        return lista;
     }
 
 
@@ -673,49 +682,43 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
             noterminal =listanoterminales.get(i);
             produccion = getProductions(noterminal);
 
-                System.out.println(noterminal + " " + produccion);
+                //System.out.println(noterminal + " " + produccion);
                 
-                if(produccion != null){
-                    
-                    for(int j=0;j<produccion.size();j++){
-                        
-                        int contador=0;
-                        
-                        System.out.println(produccion.get(j));
-                        String produccionIndividual = produccion.get(j);
-                        
-                        if(produccionIndividual.length() == 1){
-                            
-                           if(noterminales.contains(produccionIndividual.charAt(0))){
-                               
-                               return true;
-                           
-                           }
-                            
-                        }
-                        if(produccionIndividual.length() > 1){
-                            
-                            for(int k = 0; k<produccionIndividual.length();k++){
-                                
-                                if(noterminales.contains(produccionIndividual.charAt(k))){
-                               
-                                    contador ++;
-                           
-                                }
-                            
-                            }
- 
-                        }
-                        if(contador == 1){
-                        
-                            return true;
-                        
-                        }
-                    
+            if(produccion != null){
+
+                for(int j=0;j<produccion.size();j++){
+
+                    int contador=0;
+
+                    //System.out.println(produccion.get(j));
+                    String produccionIndividual = produccion.get(j);
+
+                    if(produccionIndividual.length() == 1){
+
+                       if(noterminales.contains(produccionIndividual.charAt(0))){
+
+                           return true;
+
+                       }
+
                     }
-  
+                    if(produccionIndividual.length() > 1){
+                        for(int k = 0; k<produccionIndividual.length();k++){
+
+                            if(noterminales.contains(produccionIndividual.charAt(k))){
+
+                                contador ++;
+                            }
+                        }
+
+                    }
+                    if(contador == 1){
+
+                        return true;
+
+                    }
                 }
-  
+            }
         }
        
          return false;
@@ -740,7 +743,7 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         }
         
         if(hasLambdaProductions()){
-            removeLambdaProductions();      //el metodo interior debería llamar a la gramatica almacenada
+            removeLambdaProductions();
         }
         
         if(hasUnitProductions()){
@@ -853,16 +856,16 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                             }
                         }
 
-                        if(table[j][i-1].endsWith(", ") && table[j][i-1].length()<4){   //borra el ultimo ", " cndo solo hay q poner una letra en la tabla
+                        if(table[j][i-1].endsWith(", ") && k>1){    //borra el ultimo ", " cndo las letras van en distintos String
                         table[j][i-1]=table[j][i-1].substring(0, table[j][i-1].length()-2); 
-                        }       //el substring muestra todos los elementos del String menos los 2 ultimos (", ") 
+                        }       //el substring muestra todos los elementos del String menos los 2 ultimos (", ")
                     }
                     if(table[j][i-1].isBlank()){
-                            table[j][i-1]="0";      //PARA EL CONJUNTO VACIO VAMOS A USAR EL 0
+                            table[j][i-1]="0";      // 0 para el conjunto vacio
                     }
 
                     if(table[j][i-1].endsWith(", ")){   //borra el ultimo ", " cndo se ponen varias letras a la vez en la tabla
-                        table[j][i-1]=table[j][i-1].substring(0, table[j][i-1].length()-2); 
+                        table[j][i-1]=table[j][i-1].substring(0, table[j][i-1].length()-2);
                     }
                 }
             }

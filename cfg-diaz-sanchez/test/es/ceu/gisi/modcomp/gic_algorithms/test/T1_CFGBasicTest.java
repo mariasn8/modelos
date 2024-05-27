@@ -209,6 +209,27 @@ public class T1_CFGBasicTest {
 
         gica.removeNonTerminal('B');
     }
+    
+    
+    
+    @Test   //*
+    public void comprobarEliminarNoTerminalNoValido2() throws CFGAlgorithmsException {
+        thrown.expect(CFGAlgorithmsException.class);
+        gica = new CFGAlgorithms();
+        gica.addTerminal('a');
+        gica.addTerminal('b');
+        
+        gica.addNonTerminal('S');
+        gica.addNonTerminal('A');
+        
+        gica.addProduction('S', "ASa");
+        gica.addProduction('S', "b");
+        gica.addProduction('S', "l");
+        gica.addProduction('A', "l");
+        gica.addProduction('A', "a");
+
+        gica.removeNonTerminal('a');
+    }
 
 
 
