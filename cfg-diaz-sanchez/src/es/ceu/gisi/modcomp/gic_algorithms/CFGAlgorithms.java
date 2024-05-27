@@ -959,24 +959,24 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
                 if(production.length() == 1 && production.equals(minuscula)){
                     if(!terminales.contains(production)) {
                         if (nonterminal != simboloinicial) {
-                            System.out.println("no pasa");
+                            //System.out.println("no pasa");
                             throw new CFGAlgorithmsException();
                         }
-                        System.out.println("pasa");
+                        //System.out.println("pasa");
                     }
                 }
                 else if(production.length() == 2 && production.equals(mayuscula)){
 
-                    System.out.println("pasa");
+                    //System.out.println("pasa");
                 }
                 else{
-                    System.out.println("no pasa");
+                    //System.out.println("no pasa");
                     throw new CFGAlgorithmsException();
 
                 }
             }
             else{
-                System.out.println("no pasa");
+                //System.out.println("no pasa");
                 throw new CFGAlgorithmsException();
             }
         }catch (CFGAlgorithmsException e){
