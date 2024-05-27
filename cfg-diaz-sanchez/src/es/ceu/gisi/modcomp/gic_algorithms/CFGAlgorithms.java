@@ -436,6 +436,56 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         } 
         return false;
     }
+     @Override   //G
+    public List<String> removeUselessProductions() { 
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody }
+        ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
+        List<String> listafinal = new ArrayList<>();
+        Character noterminal= null;
+        
+        List<String> produccion;
+        
+        
+        int j;
+        int i;
+        for (i=0;i<noterminales.size();i++) {
+
+        
+            noterminal=listanoterminales.get(i);
+            produccion = getProductions(noterminal);
+        
+            
+            
+            if(produccion!=null){
+
+                ArrayList<String>produccionesord = new ArrayList<>(produccion);
+
+                for(j=0;j<produccionesord.size();j++){
+                    
+                    
+                    
+                    if(produccionesord.get(j).equals(noterminal.toString())){
+                       
+                       
+                       if(listafinal.size()<1){
+                       listafinal.add(produccion.get(j)+"::="+noterminal.toString());
+                       }
+                       else{
+                       listafinal.add("|"+noterminal.toString());
+                       }
+                       
+                        try {
+                            removeProduction(noterminal,produccion.get(j));
+                        } catch (CFGAlgorithmsException ex) {
+                            
+                        } 
+                    }
+                }
+            }
+            
+        } 
+      return listafinal;
+    }
 
     @Override   //G
     public List<String> removeUnitProductions() {
