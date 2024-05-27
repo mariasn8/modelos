@@ -893,19 +893,76 @@ public class CFGAlgorithms implements CFGInterface, WFCFGInterface, CNFInterface
         
     }
 
-
-
     @Override   //G
     public void checkCNFProduction(char nonterminal, String production) throws CFGAlgorithmsException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
+            ArrayList<Character> listaterminales = new ArrayList<>(terminales);
+            
+            Character simboloinicial = getStartSymbol();
+            String minuscula = production.toLowerCase();
+            String mayuscula = production.toUpperCase();
+            if(noterminales.contains(nonterminal)){
+                if(production.length() == 1 && production.equals(minuscula)){
+                    if(!terminales.contains(production)) {
+                        if (nonterminal != simboloinicial) {
+                            System.out.println("no pasa");
+                            throw new CFGAlgorithmsException();
+                        }
+                        System.out.println("pasa");
+                    }
+                }
+                else if(production.length() == 2 && production.equals(mayuscula)){
+
+                    System.out.println("pasa");
+                }
+                else{
+                    System.out.println("no pasa");
+                    throw new CFGAlgorithmsException();
+
+                }
+            }
+            else{
+                System.out.println("no pasa");
+                throw new CFGAlgorithmsException();
+            }
+        }catch (CFGAlgorithmsException e){
+            throw e;    
+        }
+        
+        
     }
-
-
 
     @Override   //G
     public boolean isCNF() { 
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         ArrayList<Character> listanoterminales = new ArrayList<>(noterminales);
+         
+         Character noterminal;
+        
+                        
+                     
+         for(int i = 0; i<noterminales.size();i++){
+            noterminal = listanoterminales.get(i);
+            ArrayList<String> produccion = new ArrayList<>(getProductions(noterminal));
+            
+                for(int j=0;j<getProductions(noterminal).size();j++){
+                    System.out.println(noterminal + "  "+produccion.get(j));
+                    
+                    try{
+                        checkCNFProduction(noterminal,produccion.get(j));
+                    }catch(CFGAlgorithmsException e){
+                        return false;
+                    }
+            }
+         }
+ 
+        return true; 
+    
     }
+
+  
 
 
 
